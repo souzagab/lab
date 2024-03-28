@@ -7,3 +7,15 @@ resources:
 
 patches:
 - path: overlays/production/argocd-cmd-params-cm.yaml
+
+configMapGenerator:
+- behavior: merge
+  literals:
+  - |
+    repository.credentials=- passwordSecret:
+        key: git_token
+        name: autopilot-secret
+      url: https://github.com/
+      usernameSecret:
+        key: git_username
+        name: autopilot-secret
