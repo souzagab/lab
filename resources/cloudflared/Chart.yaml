@@ -1,0 +1,10 @@
+apiVersion: v2
+name: cloudflared
+description: A Helm chart for Cloudflare tunnels
+
+version: 0.1.0
+
+dependencies:
+- name: cloudflare-tunnel
+  version: 0.3.0
+  repository: https://cloudflare.github.io/helm-charts
