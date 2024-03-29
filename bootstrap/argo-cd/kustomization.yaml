@@ -3,14 +3,12 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-- github.com/argoproj-labs/argocd-autopilot/manifests/base?ref=v0.4.17
-
-patches:
-- path: overlays/production/argocd-cmd-params-cm.yaml
+- github.com/argoproj-labs/argocd-autopilot/manifests/insecure?ref=v0.4.17
 
 configMapGenerator:
 - behavior: merge
   literals:
+  - kustomize.buildOptions="--enable-alpha-plugins --enable-helm --load-restrictor LoadRestrictionsNone"
   - |
     repository.credentials=- passwordSecret:
         key: git_token
