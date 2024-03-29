@@ -1,7 +1,7 @@
 {
   "appName": "cloudflared",
   "userGivenName": "cloudflared",
-  "destNamespace": "default",
+  "destNamespace": "cloudflared",
   "destServer": "https://kubernetes.default.svc",
   "srcPath": "apps/cloudflared/overlays/core",
   "srcRepoURL": "https://github.com/souzagab/lab.git",
