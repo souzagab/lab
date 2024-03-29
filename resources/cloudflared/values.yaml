@@ -11,7 +11,7 @@ cloudflare:
   # The secret for the tunnel.
   secret: ""
   # If defined, no secret is created for the credentials, and instead, the secret referenced is used
-  secretName: null
+  secretName: cloudflared-secret
   # If true, turn on WARP routing for TCP
   enableWarp: false
   # Define ingress rules for the tunnel. See
