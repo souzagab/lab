@@ -10,4 +10,5 @@ Icon
 ._*
 /creds
 **/secrets
+**/**/secrets
 /secrets
