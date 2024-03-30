@@ -5,7 +5,7 @@ cloudflare:
   # Your Cloudflare account number.
   account: ""
   # The name of the tunnel this instance will serve
-  tunnelName: ""
+  tunnelName: "lab"
   # The ID of the above tunnel.
   tunnelId: ""
   # The secret for the tunnel.
