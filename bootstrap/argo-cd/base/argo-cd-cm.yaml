@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  kustomize.buildOptions: --enable-alpha-plugins --enable-helm --load-restrictor LoadRestrictionsNone
+  repository.credentials: |
+    - passwordSecret:
+        key: git_token
+        name: autopilot-secret
+      url: https://github.com/
+      usernameSecret:
+        key: git_username
+        name: autopilot-secret
+
+kind: ConfigMap
+metadata:
+  name: argocd-cm

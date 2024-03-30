@@ -6,16 +6,5 @@ resources:
 - github.com/argoproj-labs/argocd-autopilot/manifests/insecure?ref=v0.4.17
 - base/external-secret.yaml
 
-configMapGenerator:
-- behavior: merge
-  literals:
-  - kustomize.buildOptions="--enable-alpha-plugins --enable-helm --load-restrictor LoadRestrictionsNone"
-  - |
-    repository.credentials=- passwordSecret:
-        key: git_token
-        name: autopilot-secret
-      url: https://github.com/
-      usernameSecret:
-        key: git_username
-        name: autopilot-secret
-  name: argocd-cm
+patches:
+- path: base/argo-cd-cm.yaml
