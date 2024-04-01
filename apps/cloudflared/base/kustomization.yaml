@@ -4,15 +4,5 @@ namespace: cloudflared
 
 resources:
 - resources/external-secret.yaml
-
-patches:
-- path: cloudflared-deployment.yaml
-
-helmGlobals:
-  chartHome: charts
-helmCharts:
-- name: cloudflare-tunnel
-  version: 0.3.0
-  repo: https://cloudflare.github.io/helm-charts
-  releaseName: cloudflare-tunnel
-  valuesFile: values.yaml
+- resources/configmap.yaml
+- resources/deployment.yaml
