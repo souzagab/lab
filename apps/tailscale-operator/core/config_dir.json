@@ -1,10 +1,10 @@
 {
   "appName": "tailscale-operator",
   "userGivenName": "tailscale-operator",
-  "destNamespace": "default",
+  "destNamespace": "tailscale",
   "destServer": "https://kubernetes.default.svc",
-  "srcPath": "--enable-helm",
-  "srcRepoURL": ".git",
+  "srcPath": "apps/tailscale-operator/overlays/core",
+  "srcRepoURL": "https://github.com/souzagab/lab.git",
   "srcTargetRevision": "",
   "labels": null,
   "annotations": null,
