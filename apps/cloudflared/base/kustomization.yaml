@@ -5,8 +5,8 @@ namespace: cloudflared
 resources:
 - resources/external-secret.yaml
 
-patchesStrategicMerge:
-- cloudflared-deployment.yaml
+patches:
+- path: cloudflared-deployment.yaml
 
 helmGlobals:
   chartHome: charts
