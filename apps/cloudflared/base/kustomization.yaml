@@ -6,7 +6,7 @@ resources:
 - resources/external-secret.yaml
 
 patchesStrategicMerge:
-- cloudflared-cm.yaml
+- cloudflared-deployment.yaml
 
 helmGlobals:
   chartHome: charts

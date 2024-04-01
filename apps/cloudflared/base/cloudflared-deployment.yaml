@@ -1,9 +1,10 @@
 apiVersion: v1
+
+kind: Deployment
+metadata:
+  name: cloudflared
 spec:
   containers:
   - env:
     - name: TUNNEL_EDGE_BIND_ADDRESS
       value: 100.85.2.23
-kind: ConfigMap
-metadata:
-  name: cloudflared
