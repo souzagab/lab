@@ -17,8 +17,6 @@ image:
 # -- If set, install and upgrade CRDs through helm chart.
 installCRDs: true
 
-namespace: external-secrets
-
 crds:
   # -- If true, create CRDs for Cluster External Secret.
   createClusterExternalSecret: true
@@ -51,7 +49,7 @@ extendedMetricLabels: false
 
 # -- If set external secrets are only reconciled in the
 # provided namespace
-scopedNamespace: "external-secrets"
+scopedNamespace: ""
 
 # -- Must be used with scopedNamespace. If true, create scoped RBAC roles under the scoped namespace
 # and implicitly disable cluster stores and cluster external secrets

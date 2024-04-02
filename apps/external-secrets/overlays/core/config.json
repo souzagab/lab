@@ -1,7 +1,7 @@
 {
   "appName": "external-secrets",
   "userGivenName": "external-secrets",
-  "destNamespace": "external-secrets",
+  "destNamespace": "default",
   "destServer": "https://kubernetes.default.svc",
   "srcPath": "apps/external-secrets/overlays/core",
   "srcRepoURL": "https://github.com/souzagab/lab.git",
