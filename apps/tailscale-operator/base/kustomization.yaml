@@ -5,11 +5,9 @@ namespace: tailscale
 resources:
 - resources/external-secret.yaml
 
-helmGlobals:
-  chartHome: charts
 helmCharts:
 - name: tailscale-operator
   version: 1.62.0
-  repo: https://pkgs.tailscale.com/helmchart
+  repo: https://pkgs.tailscale.com/helmcharts
   releaseName: tailscale-operator
   valuesFile: values.yaml
