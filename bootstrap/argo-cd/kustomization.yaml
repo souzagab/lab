@@ -5,6 +5,7 @@ namespace: argocd
 resources:
 - github.com/argoproj-labs/argocd-autopilot/manifests/insecure?ref=v0.4.17
 - base/external-secret.yaml
+- base/ingress.yaml
 
 configMapGenerator:
 - behavior: merge
