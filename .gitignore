@@ -1,0 +1,14 @@
+
+**/charts/*.tgz
+*~
+.Trash-*
+.nfs*
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+/creds
+**/secrets
+**/**/secrets
+/secrets
