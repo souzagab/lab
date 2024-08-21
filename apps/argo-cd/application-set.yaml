@@ -6,7 +6,7 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: git@github.com:souzagab/lab.git
+        repoURL: https://github.com/souzagab/lab.git
         revision: main
         directories:
           - path: apps/argo-cd
