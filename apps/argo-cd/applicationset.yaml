@@ -12,12 +12,13 @@ spec:
           - path: apps/argo-cd
   template:
     metadata:
-      name: argocd
+      name: argo-cd
     spec:
       project: default
       source:
-        repoURL: https://argoproj.github.io/argo-helm
-        targetRevision: 7.4.4
+        repoURL: https://github.com/souzagab/lab.git
+        targetRevision: main
+        path: charts/argo-cd
         chart: argo-cd
         helm:
           valueFiles:
