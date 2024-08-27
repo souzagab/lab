@@ -19,10 +19,10 @@ spec:
       repoURL: https://github.com/souzagab/lab.git
       targetRevision: main
   
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: false
-          allowEmpty: false
-        syncOptions:
-          - CreateNamespace=true
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: false
+        allowEmpty: false
+      syncOptions:
+        - CreateNamespace=true
