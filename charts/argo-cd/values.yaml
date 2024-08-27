@@ -588,7 +588,7 @@ extraObjects:
       kind: ClusterSecretStore
     target:
       name: argocd-secret
-      # creationPolicy: Merge
+      creationPolicy: Owner
     data:
     - secretKey: admin.password
       remoteRef:
