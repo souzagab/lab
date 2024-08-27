@@ -131,19 +131,19 @@ extraVolumes: []
 ## -- Extra Kubernetes objects to deploy with the helm chart
 extraObjects:
 - apiVersion: external-secrets.io/v1beta1
-kind: ClusterSecretStore
-metadata:
-  name: doppler
-  namespace: external-secrets
-spec:
-  provider:
-    doppler:
-      auth:
-        secretRef:
-          dopplerToken:
-            name: doppler-token
-            key: token
-            namespace: external-secrets
+  kind: ClusterSecretStore
+  metadata:
+    name: doppler
+    namespace: external-secrets
+  spec:
+    provider:
+      doppler:
+        auth:
+          secretRef:
+            dopplerToken:
+              name: doppler-token
+              key: token
+              namespace: external-secrets
 
 ## -- Extra volumes to mount to the container.
 extraVolumeMounts: []
