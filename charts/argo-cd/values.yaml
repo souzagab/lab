@@ -580,7 +580,7 @@ extraObjects:
     name: argocd
     namespace: argocd
     annotations:
-      argocd.argoproj.io/sync-wave: "3"
+      # argocd.argoproj.io/sync-wave: "3"
   spec:
     refreshInterval: "1800s"
     secretStoreRef:
@@ -588,7 +588,7 @@ extraObjects:
       kind: ClusterSecretStore
     target:
       name: argocd-secret
-      creationPolicy: Merge
+      # creationPolicy: Merge
     data:
     - secretKey: admin.password
       remoteRef:
