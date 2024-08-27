@@ -8,6 +8,7 @@ spec:
     project: default
 
     destination:
+      name: ""
       server: https://kubernetes.default.svc
       namespace: argocd
 
@@ -21,7 +22,7 @@ spec:
   
     syncPolicy:
       automated:
-        prune: true
+        prune: false
         selfHeal: false
         allowEmpty: false
       syncOptions:
