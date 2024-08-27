@@ -1,8 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: argo-cd
+  name: argocd
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: /charts/argo-cd
 spec:
   generators:
     - git:
@@ -16,17 +18,19 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/souzagab/lab.git
-        targetRevision: main
-        path: charts/argo-cd
-        chart: argo-cd
         helm:
           valueFiles:
             - values.yaml
+        path: charts/argo-cd
+        repoURL: https://github.com/souzagab/lab.git
+        targetRevision: HEAD
+  
       destination:
         server: https://kubernetes.default.svc
         namespace: argocd
       syncPolicy:
         automated:
           prune: true
-          selfHeal: true
+          selfHeal: false
+          allowEmpty: false
+
