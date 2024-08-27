@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: argo-cd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: /charts/argo-cd
 spec:
