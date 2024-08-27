@@ -573,32 +573,24 @@ configs:
 
 # -- Array of extra K8s manifests to deploy
 ## Note: Supports use of custom Helm templates
-extraObjects: []
-  # - apiVersion: secrets-store.csi.x-k8s.io/v1
-  #   kind: SecretProviderClass
-  #   metadata:
-  #     name: argocd-secrets-store
-  #   spec:
-  #     provider: aws
-  #     parameters:
-  #       objects: |
-  #         - objectName: "argocd"
-  #           objectType: "secretsmanager"
-  #           jmesPath:
-  #               - path: "client_id"
-  #                 objectAlias: "client_id"
-  #               - path: "client_secret"
-  #                 objectAlias: "client_secret"
-  #     secretObjects:
-  #     - data:
-  #       - key: client_id
-  #         objectName: client_id
-  #       - key: client_secret
-  #         objectName: client_secret
-  #       secretName: argocd-secrets-store
-  #       type: Opaque
-  #       labels:
-  #         app.kubernetes.io/part-of: argocd
+extraObjects:
+  - apiVersion: external-secrets.io/v1beta1
+  kind: ExternalSecret
+  metadata:
+    name: argocd
+    namespace: argocd
+  spec:
+    refreshInterval: "1800s"
+    secretStoreRef:
+      name: doppler
+      kind: ClusterSecretStore
+    target:
+      name: argocd-secret
+      creationPolicy: Merge
+    data:
+    - secretKey: admin.password
+      remoteRef:
+        key: ARGOCD_ADMIN_PASSWORD
 
 ## Application controller
 controller:
