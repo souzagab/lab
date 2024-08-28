@@ -86,3 +86,6 @@ apiServerProxyConfig:
   mode: "false" # "true", "false", "noauth"
 
 imagePullSecrets: []
+
+## -- Extra Kubernetes objects to deploy with the helm chart
+extraObjects: []
