@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: /charts/external-dns
+
+spec:
+    project: default
+
+    destination:
+      name: ""
+      server: https://kubernetes.default.svc
+      namespace: external-dns
+
+    source:
+      helm:
+        valueFiles:
+          - values.yaml
+      path: charts/external-dns
+      repoURL: https://github.com/souzagab/lab
+      targetRevision: main
+
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+        allowEmpty: false
+      syncOptions:
+        - CreateNamespace=true
