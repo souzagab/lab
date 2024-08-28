@@ -225,7 +225,8 @@ txtPrefix:
 txtSuffix:
 
 ## - Limit possible target zones by domain suffixes.
-domainFilters: []
+domainFilters:
+  - g0b.dev
 
 ## -- Intentionally exclude domains from being managed.
 excludeDomains: []
