@@ -2174,77 +2174,74 @@ server:
     automountServiceAccountToken: true
 
   # Argo CD server ingress configuration
-  ingress:
-    # -- Enable an ingress resource for the Argo CD server
-    enabled: false # TODO: Move to original ingress
-    # -- Specific implementation for ingress controller. One of `generic`, `aws` or `gke`
-    ## Additional configuration might be required in related configuration sections
-    controller: generic
-    # -- Additional ingress labels
-    labels: {}
-    # -- Additional ingress annotations
-    ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-1-ssl-passthrough
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      external-dns.alpha.kubernetes.io/hostname: argo.g0b.dev
-      kubernetes.io/tls-acme: "true"
+  # ingress:
+  #   # -- Enable an ingress resource for the Argo CD server
+  #   enabled: false # TODO: Move to original ingress
+  #   # -- Specific implementation for ingress controller. One of `generic`, `aws` or `gke`
+  #   ## Additional configuration might be required in related configuration sections
+  #   controller: generic
+  #   # -- Additional ingress labels
+  #   labels: {}
+  #   # -- Additional ingress annotations
+  #   ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-1-ssl-passthrough
+  #   annotations: {}
 
-    # -- Defines which ingress controller will implement the resource
-    ingressClassName: nginx
+  #   # -- Defines which ingress controller will implement the resource
+  #   ingressClassName: nginx
 
-    # -- Argo CD server hostname
-    # @default -- `""` (defaults to global.domain)
-    hostname: ""
+  #   # -- Argo CD server hostname
+  #   # @default -- `""` (defaults to global.domain)
+  #   hostname: ""
 
-    # -- The path to Argo CD server
-    path: /
+  #   # -- The path to Argo CD server
+  #   path: /
 
-    # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
-    pathType: Prefix
+  #   # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
+  #   pathType: Prefix
 
-    # -- Enable TLS configuration for the hostname defined at `server.ingress.hostname`
-    ## TLS certificate will be retrieved from a TLS secret `argocd-server-tls`
-    ## You can create this secret via `certificate` or `certificateSecret` option
-    tls: true
+  #   # -- Enable TLS configuration for the hostname defined at `server.ingress.hostname`
+  #   ## TLS certificate will be retrieved from a TLS secret `argocd-server-tls`
+  #   ## You can create this secret via `certificate` or `certificateSecret` option
+  #   tls: true
 
-    # -- The list of additional hostnames to be covered by ingress record
-    # @default -- `[]` (See [values.yaml])
-    extraHosts: []
-      # - name: argocd.example.com
-      #   path: /
+  #   # -- The list of additional hostnames to be covered by ingress record
+  #   # @default -- `[]` (See [values.yaml])
+  #   extraHosts: []
+  #     # - name: argocd.example.com
+  #     #   path: /
 
-    # -- Additional ingress paths
-    # @default -- `[]` (See [values.yaml])
-    ## Note: Supports use of custom Helm templates
-    extraPaths: []
-      # - path: /*
-      #   pathType: Prefix
-      #   backend:
-      #     service:
-      #       name: ssl-redirect
-      #       port:
-      #         name: use-annotation
+  #   # -- Additional ingress paths
+  #   # @default -- `[]` (See [values.yaml])
+  #   ## Note: Supports use of custom Helm templates
+  #   extraPaths: []
+  #     # - path: /*
+  #     #   pathType: Prefix
+  #     #   backend:
+  #     #     service:
+  #     #       name: ssl-redirect
+  #     #       port:
+  #     #         name: use-annotation
 
-    # -- Additional ingress rules
-    # @default -- `[]` (See [values.yaml])
-    ## Note: Supports use of custom Helm templates
-    extraRules: []
-      # - http:
-      #     paths:
-      #     - path: /
-      #       pathType: Prefix
-      #       backend:
-      #         service:
-      #           name: '{{ include "argo-cd.server.fullname" . }}'
-      #           port:
-      #             name: '{{ .Values.server.service.servicePortHttpsName }}'
+  #   # -- Additional ingress rules
+  #   # @default -- `[]` (See [values.yaml])
+  #   ## Note: Supports use of custom Helm templates
+  #   extraRules: []
+  #     # - http:
+  #     #     paths:
+  #     #     - path: /
+  #     #       pathType: Prefix
+  #     #       backend:
+  #     #         service:
+  #     #           name: '{{ include "argo-cd.server.fullname" . }}'
+  #     #           port:
+  #     #             name: '{{ .Values.server.service.servicePortHttpsName }}'
 
-    # -- Additional TLS configuration
-    # @default -- `[]` (See [values.yaml])
-    extraTls:
-      - secretName: argo.g0b.dev
-        hosts:
-          - argo.g0b.dev
+  #   # -- Additional TLS configuration
+  #   # @default -- `[]` (See [values.yaml])
+  #   extraTls:
+  #     - secretName: argo.g0b.dev
+  #       hosts:
+  #         - argo.g0b.dev
 
   # Dedicated gRPC ingress for ingress controllers that supports only single backend protocol per Ingress resource
   # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-2-multiple-ingress-objects-and-hosts
