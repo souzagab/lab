@@ -601,13 +601,12 @@ extraObjects:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       external-dns.alpha.kubernetes.io/hostname: argo.g0b.dev
-      kubernetes.io/tls-acme: "true"
+      # kubernetes.io/tls-acme: "true"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   spec:
     ingressClassName: nginx
     tls:
-    - secretName: argocd-server-tls
-      hosts:
+    - hosts:
       - argo.g0b.dev
     rules:
     - host: argo.g0b.dev
