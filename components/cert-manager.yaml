@@ -1,9 +1,9 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: external-secrets
+  name: cert-manager
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: /charts/external-secrets
+    argocd.argoproj.io/manifest-generate-paths: /charts/cert-manager
     argocd.argoproj.io/sync-wave: "1"
 
 spec:
@@ -12,13 +12,13 @@ spec:
     destination:
       name: ""
       server: https://kubernetes.default.svc
-      namespace: external-secrets
+      namespace: cert-manager
 
     source:
       helm:
         valueFiles:
           - values.yaml
-      path: charts/external-secrets
+      path: charts/cert-manager
       repoURL: https://github.com/souzagab/lab
       targetRevision: main
 
