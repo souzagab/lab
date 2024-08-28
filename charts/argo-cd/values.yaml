@@ -593,6 +593,34 @@ extraObjects:
     - secretKey: admin.password
       remoteRef:
         key: ARGOCD_ADMIN_PASSWORD
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: argocd-server
+    namespace: argocd
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/hostname: argo.g0b.dev
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  spec:
+    ingressClassName: nginx
+    tls:
+    - secretName: argocd-server-tls
+      hosts:
+      - argo.g0b.dev
+    rules:
+    - host: argo.g0b.dev
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: argocd-server
+              port:
+                name: https
+
 
 ## Application controller
 controller:
@@ -2148,7 +2176,7 @@ server:
   # Argo CD server ingress configuration
   ingress:
     # -- Enable an ingress resource for the Argo CD server
-    enabled: true
+    enabled: false # TODO: Move to original ingress
     # -- Specific implementation for ingress controller. One of `generic`, `aws` or `gke`
     ## Additional configuration might be required in related configuration sections
     controller: generic
@@ -2177,7 +2205,7 @@ server:
     # -- Enable TLS configuration for the hostname defined at `server.ingress.hostname`
     ## TLS certificate will be retrieved from a TLS secret `argocd-server-tls`
     ## You can create this secret via `certificate` or `certificateSecret` option
-    tls: false
+    tls: true
 
     # -- The list of additional hostnames to be covered by ingress record
     # @default -- `[]` (See [values.yaml])
@@ -2217,50 +2245,6 @@ server:
       - secretName: argo.g0b.dev
         hosts:
           - argo.g0b.dev
-
-    # AWS specific options for Application Load Balancer
-    # Applies only when `serv.ingress.controller` is set to `aws`
-    ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#aws-application-load-balancers-albs-and-classic-elb-http-mode
-    aws:
-      # -- Backend protocol version for the AWS ALB gRPC service
-      ## This tells AWS to send traffic from the ALB using gRPC.
-      ## For more information: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-health-checks.html#health-check-settings
-      backendProtocolVersion: GRPC
-      # -- Service type for the AWS ALB gRPC service
-      ## Can be of type NodePort or ClusterIP depending on which mode you are running.
-      ## Instance mode needs type NodePort, IP mode needs type ClusterIP
-      ## Ref: https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/how-it-works/#ingress-traffic
-      serviceType: NodePort
-
-    # Google specific options for Google Application Load Balancer
-    # Applies only when `server.ingress.controller` is set to `gke`
-    ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#google-cloud-load-balancers-with-kubernetes-ingress
-    gke:
-      # -- Google [BackendConfig] resource, for use with the GKE Ingress Controller
-      # @default -- `{}` (See [values.yaml])
-      ## Ref: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#configuring_ingress_features_through_frontendconfig_parameters
-      backendConfig: {}
-        # iap:
-        #  enabled: true
-        #  oauthclientCredentials:
-        #    secretName: argocd-secret
-
-      # -- Google [FrontendConfig] resource, for use with the GKE Ingress Controller
-      # @default -- `{}` (See [values.yaml])
-      ## Ref: https://cloud.google.com/kubernetes-engine/docs/how-to/ingress-features#configuring_ingress_features_through_frontendconfig_parameters
-      frontendConfig: {}
-        # redirectToHttps:
-        #   enabled: true
-        #   responseCodeName: RESPONSE_CODE
-
-      # Managed GKE certificate for ingress hostname
-      managedCertificate:
-        # -- Create ManagedCertificate resource and annotations for Google Load balancer
-        ## Ref: https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs
-        create: true
-        # -- Additional domains for ManagedCertificate resource
-        extraDomains: []
-          # - argocd.example.com
 
   # Dedicated gRPC ingress for ingress controllers that supports only single backend protocol per Ingress resource
   # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-2-multiple-ingress-objects-and-hosts
