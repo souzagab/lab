@@ -47,7 +47,10 @@ controller:
     https: 443
   # -- Global configuration passed to the ConfigMap consumed by the controller. Values may contain Helm templates.
   # Ref.: https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/
-  config: {}
+  config:
+    ssl-redirect: "true"
+    force-ssl-redirect: "true"
+
   # -- Annotations to be added to the controller config configuration configmap.
   configAnnotations: {}
   # -- Will add custom headers before sending traffic to backends according to https://github.com/kubernetes/ingress-nginx/tree/main/docs/examples/customization/custom-headers
@@ -492,7 +495,8 @@ controller:
     loadBalancerSourceRanges: []
     # -- Load balancer class of the external controller service. Used by cloud providers to select a load balancer implementation other than the cloud provider default.
     # Ref: https://kubernetes.io/docs/concepts/services-networking/service/#load-balancer-class
-    loadBalancerClass: ""
+    loadBalancerClass: tailscale
+
     # -- Enable node port allocation for the external controller service or not. Applies to type `LoadBalancer` only.
     # Ref: https://kubernetes.io/docs/concepts/services-networking/service/#load-balancer-nodeport-allocation
     # allocateLoadBalancerNodePorts: true
@@ -1188,3 +1192,55 @@ portNamePrefix: ""
 # This can be generated with: `openssl dhparam 4096 2> /dev/null | base64`
 ## Ref: https://github.com/kubernetes/ingress-nginx/tree/main/docs/examples/customization/ssl-dh-param
 dhParam: ""
+
+## -- Extra Kubernetes objects to deploy with the helm chart
+extraObjects:
+- apiVersion: external-secrets.io/v1beta1
+  kind: ExternalSecret
+  metadata:
+    name: cloudflare-token
+    namespace: ingress-nginx
+  spec:
+    refreshInterval: "1800s"
+    secretStoreRef:
+      name: doppler
+      kind: ClusterSecretStore
+    target:
+      name: cloudflare-token
+      creationPolicy: Owner
+    data:
+    - secretKey: api-token
+      remoteRef:
+        key: CLOUDFLARE_KEY_VALUE
+- apiVersion: cert-manager.io/v1
+  kind: ClusterIssuer
+  metadata:
+    name: letsencrypt-stage
+  spec:
+    acme:
+      email: me@souzagab.com
+      server: https://acme-staging-v02.api.letsencrypt.org/directory
+      privateKeySecretRef:
+        name: letsencrypt-stage
+      solvers:
+        - dns01:
+            cloudflare:
+              apiTokenSecretRef:
+                name: cloudflare-token
+                key: api-token
+- apiVersion: cert-manager.io/v1
+  kind: ClusterIssuer
+  metadata:
+    name: letsencrypt-prod
+  spec:
+    acme:
+      email: me@souzagab.com
+      server: https://acme-v02.api.letsencrypt.org/directory
+      privateKeySecretRef:
+        name: letsencrypt-prod
+      solvers:
+        - dns01:
+            cloudflare:
+              apiTokenSecretRef:
+                name: cloudflare-token
+                key: api-token
