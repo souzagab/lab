@@ -1346,4 +1346,23 @@ startupapicheck:
 #     kind: ConfigMap
 #     metadata:
 #       name: '{{ template "cert-manager.name" . }}-extra-configmap'
-extraObjects: []
+extraObjects:
+  - apiVersion: external-secrets.io/v1beta1
+    kind: ExternalSecret
+    metadata:
+      name: cloudflare-token
+      namespace: cert-manager
+      annotations:
+        argocd.argoproj.io/sync-wave: "1"
+    spec:
+      refreshInterval: "1800s"
+      secretStoreRef:
+        name: doppler
+        kind: ClusterSecretStore
+      target:
+        name: cloudflare-token
+        creationPolicy: Owner
+      data:
+      - secretKey: api-token
+        remoteRef:
+          key: CLOUDFLARE_KEY_VALUE
