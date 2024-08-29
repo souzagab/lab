@@ -603,6 +603,7 @@ extraObjects:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       external-dns.alpha.kubernetes.io/hostname: argo.g0b.dev
       kubernetes.io/tls-acme: "true"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   spec:
     ingressClassName: nginx
