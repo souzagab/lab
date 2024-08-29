@@ -579,8 +579,6 @@ extraObjects:
   metadata:
     name: argocd
     namespace: argocd
-    annotations:
-      # argocd.argoproj.io/sync-wave: "3"
   spec:
     refreshInterval: "1800s"
     secretStoreRef:
@@ -599,7 +597,6 @@ extraObjects:
     name: argocd-server
     namespace: argocd
     annotations:
-      argocd.argoproj.io/sync-wave: "5"
       cert-manager.io/cluster-issuer: letsencrypt-prod
       external-dns.alpha.kubernetes.io/hostname: argo.g0b.dev
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"

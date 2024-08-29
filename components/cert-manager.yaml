@@ -4,8 +4,6 @@ metadata:
   name: cert-manager
   annotations:
     argocd.argoproj.io/manifest-generate-paths: /charts/cert-manager
-    argocd.argoproj.io/sync-wave: "1"
-
 spec:
     project: default
 

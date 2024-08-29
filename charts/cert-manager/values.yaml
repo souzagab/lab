@@ -1352,8 +1352,6 @@ extraObjects:
     metadata:
       name: cloudflare-token
       namespace: cert-manager
-      annotations:
-        argocd.argoproj.io/sync-wave: "1"
     spec:
       refreshInterval: "1800s"
       secretStoreRef:

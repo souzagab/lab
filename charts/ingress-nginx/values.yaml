@@ -1200,7 +1200,6 @@ extraObjects:
     name: cloudflare-token
     namespace: ingress-nginx
     annotations:
-      argocd.argoproj.io/sync-wave: "1"
   spec:
     refreshInterval: "1800s"
     secretStoreRef:
@@ -1219,7 +1218,6 @@ extraObjects:
     name: letsencrypt-stage
     namespace: ingress-nginx
     annotations:
-      argocd.argoproj.io/sync-wave: "2"
   spec:
     acme:
       email: me@souzagab.com
@@ -1238,7 +1236,6 @@ extraObjects:
     name: letsencrypt-prod
     namespace: ingress-nginx
     annotations:
-      argocd.argoproj.io/sync-wave: "2"
   spec:
     acme:
       email: me@souzagab.com
@@ -1256,8 +1253,6 @@ extraObjects:
   metadata:
     name: g0b-dev-tls
     namespace: ingress-nginx
-    annotations:
-      argocd.argoproj.io/sync-wave: "2"
   spec:
     secretName: g0b-dev-tls
     issuerRef:
