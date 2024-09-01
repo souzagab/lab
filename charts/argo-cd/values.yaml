@@ -599,7 +599,7 @@ extraObjects:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       external-dns.alpha.kubernetes.io/hostname: argo.g0b.dev
-      # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   spec:
     ingressClassName: nginx
     tls:
@@ -616,7 +616,7 @@ extraObjects:
             service:
               name: argocd-server
               port:
-                name: http
+                name: https
 
 
 ## Application controller
