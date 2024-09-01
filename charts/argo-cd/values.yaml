@@ -597,16 +597,16 @@ extraObjects:
     name: argocd-server
     namespace: argocd
     annotations:
-      # cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: letsencrypt-prod
       external-dns.alpha.kubernetes.io/hostname: argo.g0b.dev
-      # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
       # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   spec:
     ingressClassName: nginx
-    # tls:
-    # - hosts:
-    #   - argo.g0b.dev
-    #   secretName: g0b-dev-tls
+    tls:
+    - hosts:
+      - argo.g0b.dev
+      secretName: g0b-dev-tls
     rules:
     - host: argo.g0b.dev
       http:
