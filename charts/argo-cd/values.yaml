@@ -252,7 +252,7 @@ configs:
     ## Server properties
     # -- Run server without TLS
     ## NOTE: This value should be set when you generate params by other means as it changes ports used by ingress template.
-    server.insecure: false
+    server.insecure: true
     # -- Value for base href in index.html. Used if Argo CD is running behind reverse proxy under subpath different from /
     server.basehref: /
     # -- Used if Argo CD is running behind reverse proxy under subpath different from /
@@ -599,7 +599,7 @@ extraObjects:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       external-dns.alpha.kubernetes.io/hostname: argo.g0b.dev
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   spec:
     ingressClassName: nginx
     tls:
@@ -616,7 +616,7 @@ extraObjects:
             service:
               name: argocd-server
               port:
-                name: https
+                name: http
 
 
 ## Application controller
