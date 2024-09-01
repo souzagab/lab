@@ -615,7 +615,7 @@ extraObjects:
           pathType: Prefix
           backend:
             service:
-              name: argocd-server
+              name: argo-cd-argocd-server # TODO: Understand and change argocd deployment
               port:
                 name: http
 
