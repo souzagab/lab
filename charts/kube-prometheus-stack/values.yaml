@@ -996,7 +996,7 @@ grafana:
 
     ## Annotations for Grafana Ingress
     ##
-    annotations: {}
+    annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       external-dns.alpha.kubernetes.io/hostname: grafana.g0b.dev
 
