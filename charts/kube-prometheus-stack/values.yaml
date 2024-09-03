@@ -391,13 +391,15 @@ alertmanager:
   #       {{ end }}
 
   ingress:
-    enabled: false
+    enabled: true
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
     # ingressClassName: nginx
 
-    annotations: {}
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      external-dns.alpha.kubernetes.io/hostname: alertmanager.g0b.dev
 
     labels: {}
 
@@ -409,8 +411,8 @@ alertmanager:
 
     ## Hosts must be provided if Ingress is enabled.
     ##
-    hosts: []
-      # - alertmanager.domain.com
+    hosts:
+      - alertmanager.g0b.dev
 
     ## Paths to use for ingress rules - one path should match the alertmanagerSpec.routePrefix
     ##
@@ -424,10 +426,10 @@ alertmanager:
     ## TLS configuration for Alertmanager Ingress
     ## Secret must be manually created in the namespace
     ##
-    tls: []
-    # - secretName: alertmanager-general-tls
-    #   hosts:
-    #   - alertmanager.example.com
+    tls:
+    - hosts:
+      - alertmanager.g0b.dev
+      secretName: g0b-dev-tls
 
   ## Configuration for Alertmanager secret
   ##
@@ -3252,13 +3254,16 @@ prometheus:
   #     someoneelse:$apr1$DMZX2Z4q$6SbQIfyuLQd.xmo/P0m2c.
 
   ingress:
-    enabled: false
+    enabled: true
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
     # ingressClassName: nginx
 
-    annotations: {}
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      external-dns.alpha.kubernetes.io/hostname: prometheus.g0b.dev
+
     labels: {}
 
     ## Redirect ingress to an additional defined port on the service
@@ -3283,10 +3288,10 @@ prometheus:
     ## TLS configuration for Prometheus Ingress
     ## Secret must be manually created in the namespace
     ##
-    tls: []
-      # - secretName: prometheus-general-tls
-      #   hosts:
-      #     - prometheus.example.com
+    tls:
+    - hosts:
+      - prometheus.g0b.dev
+      secretName: g0b-dev-tls
 
   ## Configuration for creating an Ingress that will map to each Prometheus replica service
   ## prometheus.servicePerReplica must be enabled
