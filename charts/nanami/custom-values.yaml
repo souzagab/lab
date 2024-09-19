@@ -50,5 +50,6 @@ extraObjects:
     dataFrom:
       - find:
           path: NM_
-    transform:
-      - key: '{{`{{ .key | regexReplaceAll "^NM_" "" }}`}}'
+          rewrite:
+            - from: "^NM_"
+              to: ""
