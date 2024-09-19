@@ -48,11 +48,11 @@ extraObjects:
       name: nanami-secrets
       creationPolicy: Owner
     dataFrom:
-      - find:
-          path: NM_
-          name:
-            regexp: "NM_.*"
+    - find:
+        path: NM_
+        name:
+          regexp: "NM_.*"
       rewrite:
-        - regexp:
-            source: "NM_(.*)"
-            target: "$1"
+      - regexp:
+          source: "NM_(.*)"
+          target: "$1"
