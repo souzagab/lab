@@ -87,6 +87,10 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
+secrets:
+  enabled: false  # Set this to true if the secrets should be added
+  name: nanami-secrets  # Name of the Kubernetes secret created
+
 # Additional volumes on the output Deployment definition.
 volumes: []
 # - name: foo
@@ -105,3 +109,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+## -- Extra Kubernetes objects to deploy with the helm chart
+extraObjects: []

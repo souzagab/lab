@@ -1,4 +1,6 @@
 replicaCount: 1
+image:
+  pullPolicy: Always
 
 ingress:
   enabled: true
@@ -27,3 +29,24 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+secrets:
+  enabled: true  # Set this to true if the secrets should be added
+  name: nanami-secrets  # Name of the Kubernetes secret created
+
+extraObjects:
+- apiVersion: external-secrets.io/v1beta1
+  kind: ExternalSecret
+  metadata:
+    name: nanami-secrets
+    namespace: apps
+  spec:
+    refreshInterval: "1800s"
+    secretStoreRef:
+      name: doppler
+      kind: ClusterSecretStore
+    target:
+      name: nanami-secrets
+      creationPolicy: Owner
+      dataFrom:
+        - find:
+            path: NM_
