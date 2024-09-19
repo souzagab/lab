@@ -51,4 +51,4 @@ extraObjects:
       - find:
           path: NM_
     transform:
-      - key: '{{`{{ .key | regexReplaceAll "^NANAMI_" "" }}`}}'
+      - key: '{{`{{ .key | regexReplaceAll "^NM_" "" }}`}}'
