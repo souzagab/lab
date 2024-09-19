@@ -50,3 +50,5 @@ extraObjects:
     dataFrom:
       - find:
           path: NM_
+    transform:
+      - key: '{{`{{ .key | regexReplaceAll "^NANAMI_" "" }}`}}'
