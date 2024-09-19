@@ -47,6 +47,6 @@ extraObjects:
     target:
       name: nanami-secrets
       creationPolicy: Owner
-      dataFrom:
-        - find:
-            path: NM_
+    dataFrom:
+      - find:
+          path: NM_
