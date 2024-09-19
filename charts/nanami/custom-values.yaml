@@ -3,18 +3,18 @@ replicaCount: 1
 ingress:
   enabled: true
   className: "nginx"
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      external-dns.alpha.kubernetes.io/hostname: nanami.g0b.dev
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    external-dns.alpha.kubernetes.io/hostname: nanami.g0b.dev
   hosts:
-    - host: nanami.g0b.dev
+    - host: "nanami.g0b.dev"
       paths:
-        - path: /
+        - path: "/"
           pathType: Prefix
-    tls:
-    - hosts:
-      - nanami.g0b.dev
-      secretName: g0b-dev-tls
+  tls:
+    - secretName: "g0b-dev-tls"
+      hosts:
+        - "nanami.g0b.dev"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
