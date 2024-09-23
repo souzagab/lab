@@ -1,0 +1,119 @@
+# Default values for longhorn.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+global:
+  # -- Toleration for nodes allowed to run user-deployed components such as Longhorn Manager, Longhorn UI, and Longhorn Driver Deployer.
+  tolerations: []
+  # -- Node selector for nodes allowed to run user-deployed components such as Longhorn Manager, Longhorn UI, and Longhorn Driver Deployer.
+  nodeSelector: {}
+  cattle:
+    # -- Default system registry.
+    systemDefaultRegistry: ""
+    windowsCluster:
+      # -- Setting that allows Longhorn to run on a Rancher Windows cluster.
+      enabled: false
+      # -- Toleration for Linux nodes that can run user-deployed Longhorn components.
+      tolerations:
+      - key: "cattle.io/os"
+        value: "linux"
+        effect: "NoSchedule"
+        operator: "Equal"
+      # -- Node selector for Linux nodes that can run user-deployed Longhorn components.
+      nodeSelector:
+        kubernetes.io/os: "linux"
+      defaultSetting:
+        # -- Toleration for system-managed Longhorn components.
+        taintToleration: cattle.io/os=linux:NoSchedule
+        # -- Node selector for system-managed Longhorn components.
+        systemManagedComponentsNodeSelector: kubernetes.io/os:linux
+
+networkPolicies:
+  # -- Setting that allows you to enable network policies that control access to Longhorn pods.
+  enabled: false
+  # -- Distribution that determines the policy for allowing access for an ingress. (Options: "k3s", "rke2", "rke1")
+  type: "k3s"
+
+
+
+service:
+  ui:
+    # -- Service type for Longhorn UI. (Options: "ClusterIP", "NodePort", "LoadBalancer", "Rancher-Proxy")
+    type: ClusterIP
+    # -- NodePort port number for Longhorn UI. When unspecified, Longhorn selects a free port between 30000 and 32767.
+    nodePort: null
+  manager:
+    # -- Service type for Longhorn Manager.
+    type: ClusterIP
+    # -- NodePort port number for Longhorn Manager. When unspecified, Longhorn selects a free port between 30000 and 32767.
+    nodePort: ""
+
+
+
+longhornManager:
+  log:
+    # -- Format of Longhorn Manager logs. (Options: "plain", "json")
+    format: json
+
+longhornUI:
+  # -- Replica count for Longhorn UI.
+  replicas: 1
+
+
+ingress:
+  # -- Setting that allows Longhorn to generate ingress records for the Longhorn UI service.
+  enabled: true
+
+  # -- IngressClass resource that contains ingress configuration, including the name of the Ingress controller.
+  # ingressClassName can replace the kubernetes.io/ingress.class annotation used in earlier Kubernetes releases.
+  ingressClassName: nginx
+
+  # -- Hostname of the Layer 7 load balancer.
+  host: longhorn.g0b.dev
+
+  # -- Setting that allows you to enable TLS on ingress records.
+  tls: true
+
+  # -- Setting that allows you to enable secure connections to the Longhorn UI service via port 443.
+  secureBackends: false
+
+  # -- TLS secret that contains the private key and certificate to be used for TLS. This setting applies only when TLS is enabled on ingress records.
+  tlsSecret: g0b-dev-tls
+
+  # -- Default ingress path. You can access the Longhorn UI by following the full ingress path {{host}}+{{path}}.
+  path: /
+
+  # -- Ingress path type. To maintain backward compatibility, the default value is "ImplementationSpecific".
+  pathType: ImplementationSpecific
+
+  ## If you're using kube-lego, you will want to add:
+  ## kubernetes.io/tls-acme: true
+  ##
+  ## For a full list of possible ingress annotations, please see
+  ## ref: https://github.com/kubernetes/ingress-nginx/blob/master/docs/annotations.md
+  ##
+  ## If tls is set to true, annotation ingress.kubernetes.io/secure-backends: "true" will automatically be set
+  # -- Ingress annotations in the form of key-value pairs.
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/hostname: longhorn.g0b.dev
+
+metrics:
+  serviceMonitor:
+    # -- Setting that allows the creation of a Prometheus ServiceMonitor resource for Longhorn Manager components.
+    enabled: false
+    # -- Additional labels for the Prometheus ServiceMonitor resource.
+    additionalLabels: {}
+    # -- Annotations for the Prometheus ServiceMonitor resource.
+    annotations: {}
+    # -- Interval at which Prometheus scrapes the metrics from the target.
+    interval: ""
+    # -- Timeout after which Prometheus considers the scrape to be failed.
+    scrapeTimeout: ""
+    # -- Configures the relabeling rules to apply the target’s metadata labels. See the [Prometheus Operator
+    # documentation](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.Endpoint) for
+    # formatting details.
+    relabelings: []
+    # -- Configures the relabeling rules to apply to the samples before ingestion. See the [Prometheus Operator
+    # documentation](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.Endpoint) for
+    # formatting details.
+    metricRelabelings: []
