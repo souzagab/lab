@@ -3,6 +3,7 @@ kind: Application
 metadata:
   name: kube-prometheus-stack
   annotations:
+    argocd.argoproj.io/sync-wave: "2"
     argocd.argoproj.io/manifest-generate-paths: /charts/kube-prometheus-stack
 spec:
     project: default

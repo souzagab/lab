@@ -3,6 +3,7 @@ kind: Application
 metadata:
   name: ingress-nginx
   annotations:
+    argocd.argoproj.io/sync-wave: "1"
     argocd.argoproj.io/manifest-generate-paths: /charts/ingress-nginx
 spec:
     project: default

@@ -3,6 +3,7 @@ kind: Application
 metadata:
   name: tailscale-operator
   annotations:
+    argocd.argoproj.io/sync-wave: "1"
     argocd.argoproj.io/manifest-generate-paths: /charts/tailscale-operator
 spec:
     project: default
@@ -19,7 +20,7 @@ spec:
       path: charts/tailscale-operator
       repoURL: https://github.com/souzagab/lab
       targetRevision: main
-    
+
     syncPolicy:
       automated:
         prune: true
