@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: kube-prometheus-stack
   annotations:
-    argocd.argoproj.io/sync-wave: "3"
+    # argocd.argoproj.io/sync-wave: "3"
     argocd.argoproj.io/manifest-generate-paths: /charts/kube-prometheus-stack
 spec:
     project: default
@@ -17,6 +17,7 @@ spec:
       helm:
         valueFiles:
           - values.yaml
+          - custom-values.yaml
       path: charts/kube-prometheus-stack
       repoURL: https://github.com/souzagab/lab
       targetRevision: main
