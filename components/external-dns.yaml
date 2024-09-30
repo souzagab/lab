@@ -3,9 +3,9 @@ kind: Application
 metadata:
   name: external-dns
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
     argocd.argoproj.io/manifest-generate-paths: /charts/external-dns
-
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
     project: default
 
@@ -25,7 +25,7 @@ spec:
     syncPolicy:
       automated:
         prune: true
-        selfHeal: true
+        selfHeal: false
         allowEmpty: false
       syncOptions:
         - CreateNamespace=true

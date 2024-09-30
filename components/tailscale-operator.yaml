@@ -3,7 +3,6 @@ kind: Application
 metadata:
   name: tailscale-operator
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
     argocd.argoproj.io/manifest-generate-paths: /charts/tailscale-operator
 spec:
     project: default
@@ -24,7 +23,7 @@ spec:
     syncPolicy:
       automated:
         prune: true
-        selfHeal: true
+        selfHeal: false
         allowEmpty: false
       syncOptions:
         - CreateNamespace=true

@@ -3,7 +3,6 @@ kind: Application
 metadata:
   name: argo-cd
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
     argocd.argoproj.io/manifest-generate-paths: /charts/argo-cd
 spec:
     project: default

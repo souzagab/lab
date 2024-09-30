@@ -3,7 +3,6 @@ kind: Application
 metadata:
   name: kube-prometheus-stack
   annotations:
-    # argocd.argoproj.io/sync-wave: "3"
     argocd.argoproj.io/manifest-generate-paths: /charts/kube-prometheus-stack
 spec:
     project: default
@@ -25,7 +24,7 @@ spec:
     syncPolicy:
       automated:
         prune: true
-        selfHeal: true
+        selfHeal: false
         allowEmpty: false
       syncOptions:
         - CreateNamespace=true
