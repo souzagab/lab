@@ -4,7 +4,7 @@ extraObjects:
 - apiVersion: external-secrets.io/v1beta1
   kind: ClusterSecretStore
   metadata:
-    name: doppler-auth
+    name: doppler
     namespace: external-secrets
   spec:
     provider:
