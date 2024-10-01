@@ -38,7 +38,7 @@ extraObjects:
   kind: ExternalSecret
   metadata:
     name: nanami-secrets
-    namespace: apps
+    namespace: nanami
   spec:
     refreshInterval: "1800s"
     secretStoreRef:
