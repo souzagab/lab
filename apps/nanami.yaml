@@ -3,7 +3,6 @@ kind: Application
 metadata:
   name: nanami
   annotations:
-    argocd.argoproj.io/sync-wave: "5"
     argocd.argoproj.io/manifest-generate-paths: /charts/nanami
 spec:
     project: default
@@ -11,7 +10,7 @@ spec:
     destination:
       name: ""
       server: https://kubernetes.default.svc
-      namespace: apps
+      namespace: nanami
 
     source:
       helm:
