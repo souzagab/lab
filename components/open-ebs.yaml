@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: open-ebs
   annotations:
-    argocd.argoproj.io/manifest-generate-paths: /charts/open-ebs
+    argocd.argoproj.io/manifest-generate-paths: /charts/openebs
 spec:
     project: default
 
