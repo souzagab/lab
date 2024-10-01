@@ -1006,7 +1006,7 @@ grafana:
   persistence:
     enabled: true
     type: sts
-    storageClassName: local-path
+    storageClassName: ""
     accessModes:
       - ReadWriteOnce
     size: 20Gi
