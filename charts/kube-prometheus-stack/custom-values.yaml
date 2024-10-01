@@ -987,37 +987,15 @@ grafana:
     pspEnabled: false
 
   ingress:
-    ## If true, Grafana Ingress will be created
-    ##
     enabled: true
-
-    ## IngressClassName for Grafana Ingress.
-    ## Should be provided if Ingress is enable.
-    ##
     ingressClassName: nginx
-
-    ## Annotations for Grafana Ingress
-    ##
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       external-dns.alpha.kubernetes.io/hostname: grafana.g0b.dev
-
-    ## Labels to be added to the Ingress
-    ##
     labels: {}
-
-    ## Hostnames.
-    ## Must be provided if Ingress is enable.
-    ##
     hosts:
       - grafana.g0b.dev
-
-    ## Path for grafana ingress
     path: /
-
-    ## TLS configuration for grafana Ingress
-    ## Secret must be manually created in the namespace
-    ##
     tls:
       - secretName: g0b-dev-tls
         hosts:
@@ -1028,7 +1006,7 @@ grafana:
   persistence:
     enabled: true
     type: sts
-    storageClassName: default
+    storageClassName: local-path
     accessModes:
       - ReadWriteOnce
     size: 20Gi
@@ -3255,40 +3233,15 @@ prometheus:
 
   ingress:
     enabled: true
-
-    # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
-    # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
     ingressClassName: nginx
-
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       external-dns.alpha.kubernetes.io/hostname: prometheus.g0b.dev
 
     labels: {}
-
-    ## Redirect ingress to an additional defined port on the service
-    # servicePort: 8081
-
-    ## Hostnames.
-    ## Must be provided if Ingress is enabled.
-    ##
-    # hosts:
-    #   - prometheus.domain.com
     hosts:
       - prometheus.g0b.dev
-
-    ## Paths to use for ingress rules - one path should match the prometheusSpec.routePrefix
-    ##
     paths: []
-    # - /
-
-    ## For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
-    ## See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
-    # pathType: ImplementationSpecific
-
-    ## TLS configuration for Prometheus Ingress
-    ## Secret must be manually created in the namespace
-    ##
     tls:
     - hosts:
       - prometheus.g0b.dev
