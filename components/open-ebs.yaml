@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: open-ebs
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: /charts/open-ebs
+spec:
+    project: default
+
+    destination:
+      name: ""
+      server: https://kubernetes.default.svc
+      namespace: open-ebs
+
+    source:
+      helm:
+        valueFiles:
+          - values.yaml
+      path: charts/open-ebs
+      repoURL: https://github.com/souzagab/lab
+      targetRevision: main
+
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: false
+        allowEmpty: false
+      syncOptions:
+        - CreateNamespace=true
