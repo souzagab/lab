@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: /charts/kube-prometheus-stack
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+    project: default
+
+    destination:
+      name: ""
+      server: https://kubernetes.default.svc
+      namespace: monitoring
+
+    source:
+      helm:
+        valueFiles:
+          - values.yaml
+      path: charts/kube-prometheus-stack
+      repoURL: https://github.com/souzagab/lab
+      targetRevision: main
+
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: false
+        allowEmpty: false
+      syncOptions:
+        - CreateNamespace=true
+        - ServerSideApply=true
