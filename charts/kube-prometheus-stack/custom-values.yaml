@@ -395,7 +395,7 @@ alertmanager:
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    # ingressClassName: nginx
+    ingressClassName: nginx
 
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -1025,15 +1025,15 @@ grafana:
 
   # # To make Grafana persistent (Using Statefulset)
   # #
-  # persistence:
-  #   enabled: true
-  #   type: sts
-  #   storageClassName: default
-  #   accessModes:
-  #     - ReadWriteOnce
-  #   size: 20Gi
-  #   finalizers:
-  #     - kubernetes.io/pvc-protection
+  persistence:
+    enabled: true
+    type: sts
+    storageClassName: default
+    accessModes:
+      - ReadWriteOnce
+    size: 20Gi
+    finalizers:
+      - kubernetes.io/pvc-protection
 
   serviceAccount:
     create: true
@@ -3258,7 +3258,7 @@ prometheus:
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    # ingressClassName: nginx
+    ingressClassName: nginx
 
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -3301,7 +3301,7 @@ prometheus:
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    # ingressClassName: nginx
+    ingressClassName: nginx
 
     annotations: {}
     labels: {}
@@ -4337,7 +4337,7 @@ thanosRuler:
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    # ingressClassName: nginx
+    ingressClassName: nginx
 
     annotations: {}
 
