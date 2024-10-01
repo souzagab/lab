@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: open-ebs
+  name: openebs
   annotations:
     argocd.argoproj.io/manifest-generate-paths: /charts/openebs
 spec:
@@ -10,13 +10,13 @@ spec:
     destination:
       name: ""
       server: https://kubernetes.default.svc
-      namespace: open-ebs
+      namespace: openebs
 
     source:
       helm:
         valueFiles:
           - values.yaml
-      path: charts/open-ebs
+      path: charts/openebs
       repoURL: https://github.com/souzagab/lab
       targetRevision: main
 
