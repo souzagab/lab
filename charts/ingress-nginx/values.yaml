@@ -1253,6 +1253,7 @@ extraObjects:
   metadata:
     name: g0b-dev-tls
     namespace: ingress-nginx
+  spec:
     secretName: g0b-dev-tls
     issuerRef:
       name: letsencrypt-prod
