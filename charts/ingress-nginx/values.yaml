@@ -874,12 +874,12 @@ controller:
       # externalTrafficPolicy: ""
       # nodePort: ""
     serviceMonitor:
-      enabled: false
+      enabled: true
       additionalLabels: {}
       annotations: {}
       ## The label to use to retrieve the job name from.
       ## jobLabel: "app.kubernetes.io/name"
-      namespace: ""
+      namespace: monitoring
       namespaceSelector: {}
       ## Default: scrape .Release.Namespace or namespaceOverride only
       ## To scrape all, use the following:

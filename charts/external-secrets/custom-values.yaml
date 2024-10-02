@@ -3,7 +3,7 @@ serviceMonitor:
   enabled: true
 
   # -- namespace where you want to install ServiceMonitors
-  namespace: ""
+  namespace: monitoring
 
   # -- Additional labels
   additionalLabels: {}
