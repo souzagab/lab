@@ -4,6 +4,8 @@ metadata:
   name: tailscale-operator
   annotations:
     argocd.argoproj.io/manifest-generate-paths: /charts/tailscale-operator
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
     project: default
 

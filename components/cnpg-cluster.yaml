@@ -4,6 +4,8 @@ metadata:
   name: cnpg-cluster
   annotations:
     argocd.argoproj.io/manifest-generate-paths: /charts/cnpg-cluster
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 
 spec:
     project: default

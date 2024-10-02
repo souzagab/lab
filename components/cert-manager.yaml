@@ -4,6 +4,8 @@ metadata:
   name: cert-manager
   annotations:
     argocd.argoproj.io/manifest-generate-paths: /charts/cert-manager
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
     project: default
 

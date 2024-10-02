@@ -4,6 +4,8 @@ metadata:
   name: cloudnative-pg
   annotations:
     argocd.argoproj.io/manifest-generate-paths: /charts/cloudnative-pg
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 
 spec:
     project: default
