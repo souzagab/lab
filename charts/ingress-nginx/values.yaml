@@ -1253,17 +1253,10 @@ extraObjects:
   metadata:
     name: g0b-dev-tls
     namespace: ingress-nginx
-  spec:
     secretName: g0b-dev-tls
     issuerRef:
       name: letsencrypt-prod
       kind: ClusterIssuer
+    commonName: "*.g0b.dev"
     dnsNames:
       - "*.g0b.dev"
-    acme:
-      config:
-        - dns01:
-            provider: cloudflare
-          domains:
-            - "*.g0b.dev"
-            - g0b.dev
