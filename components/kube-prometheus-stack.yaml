@@ -17,7 +17,7 @@ spec:
     source:
       helm:
         valueFiles:
-          - values.yaml
+          - custom-values.yaml
       path: charts/kube-prometheus-stack
       repoURL: https://github.com/souzagab/lab
       targetRevision: main
