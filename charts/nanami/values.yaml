@@ -95,8 +95,8 @@ secrets:
 migrationsJob:
   enabled: true  # Set to false to disable the migrations Job
   image:
-    repository: "{{ .Values.image.repository }}"  # Use the same repository as the main app
-    tag: "{{ .Values.image.tag }}"
+    repository: ghcr.io/souzagab/nanami
+    tag: main
     pullPolicy: IfNotPresent
   # Command to run Alembic migrations
   command: ["alembic", "upgrade", "head"]
