@@ -97,7 +97,7 @@ migrationsJob:
   image:
     repository: "{{ .Values.image.repository }}"  # Use the same repository as the main app
     tag: "{{ .Values.image.tag }}"
-    pullPolicy: "{{ .Values.image.pullPolicy }}"
+    pullPolicy: IfNotPresent
   # Command to run Alembic migrations
   command: ["alembic", "upgrade", "head"]
   # Environment variables for the Job
