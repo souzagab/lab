@@ -8,7 +8,7 @@ image:
   repository: ghcr.io/souzagab/nanami
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: latest
+  tag: main
 
 imagePullSecrets: []
 nameOverride: ""
@@ -96,7 +96,7 @@ migrationsJob:
   enabled: true  # Set to false to disable the migrations Job
   image:
     repository: ghcr.io/souzagab/nanami
-    tag: latest
+    tag: main
     pullPolicy: IfNotPresent
   # Command to run Alembic migrations
   command: ["alembic", "upgrade", "head"]
