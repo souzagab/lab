@@ -26,8 +26,8 @@ spec:
       serviceAccountName: {{ include "nanami.serviceAccountName" . }}
       containers:
         - name: migrations
-          image: "{{ .Values.migrationsJob.image.repository }}:{{ .Values.migrationsJob.image.tag }}"
-          imagePullPolicy: "{{ .Values.migrationsJob.image.pullPolicy }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
           command: {{ toJson .Values.migrationsJob.command }}
           env:
             {{- range .Values.migrationsJob.env }}

@@ -94,10 +94,6 @@ secrets:
 # Migrations Job Configuration
 migrationsJob:
   enabled: true  # Set to false to disable the migrations Job
-  image:
-    repository: ghcr.io/souzagab/nanami
-    tag: main
-    pullPolicy: IfNotPresent
   # Command to run Alembic migrations
   command: ["alembic", "upgrade", "head"]
   # Environment variables for the Job
