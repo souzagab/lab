@@ -41,7 +41,6 @@ extraObjects:
     namespace: nanami
     annotations:
       "helm.sh/hook": pre-install,pre-upgrade
-      "helm.sh/hook-delete-policy": hook-succeeded
   spec:
     refreshInterval: "1800s"
     secretStoreRef:
