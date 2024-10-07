@@ -1,5 +1,3 @@
-# templates/migrations-job.yaml
-
 {{- if .Values.migrationsJob.enabled }}
 apiVersion: batch/v1
 kind: Job
@@ -10,10 +8,18 @@ metadata:
     helm.sh/chart: {{ include "nanami.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
 spec:
+  ttlSecondsAfterFinished: 30
+  selector:
+    matchLabels:
+      job-name: "{{ include "nanami.fullname" . }}-migrations"
   template:
     metadata:
       labels:
+        job-name: "{{ include "nanami.fullname" . }}-migrations"
         app.kubernetes.io/name: {{ include "nanami.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
