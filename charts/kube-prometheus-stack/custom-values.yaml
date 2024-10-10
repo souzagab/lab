@@ -391,7 +391,7 @@ alertmanager:
   #       {{ end }}
 
   ingress:
-    enabled: true
+    enabled: false
 
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
@@ -987,7 +987,7 @@ grafana:
     pspEnabled: false
 
   ingress:
-    enabled: true
+    enabled: false
     ingressClassName: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -4740,11 +4740,54 @@ thanosRuler:
 cleanPrometheusOperatorObjectNames: false
 
 ## Extra manifests to deploy as an array
-extraManifests: []
-  # - apiVersion: v1
-  #   kind: ConfigMap
-  #   metadata:
-  #   labels:
-  #     name: prometheus-extra
-  #   data:
-  #     extra-data: "value"
+extraManifests:
+  - apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: kube-prometheus-stack-alertmanager
+      namespace: monitoring
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        external-dns.alpha.kubernetes.io/hostname: alertmanager.g0b.dev
+    spec:
+      ingressClassName: nginx
+      tls:
+        - hosts:
+          - alertmanager.g0b.dev
+          secretName: g0b-dev-tls
+      rules:
+        - host: alertmanager.g0b.dev
+          http:
+            paths:
+            - path: /
+              pathType: ImplementationSpecific
+              backend:
+                service:
+                  name: kube-prometheus-stack-alertmanager
+                  port:
+                    number: 9093
+  - apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: kube-prometheus-stack-grafana
+      namespace: monitoring
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        external-dns.alpha.kubernetes.io/hostname: grafana.g0b.dev
+    spec:
+      ingressClassName: nginx
+      tls:
+        - hosts:
+          - grafana.g0b.dev
+          secretName: g0b-dev-tls
+      rules:
+        - host: grafana.g0b.dev
+          http:
+            paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: kube-prometheus-stack-grafana
+                  port:
+                    name: http
