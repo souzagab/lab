@@ -4760,7 +4760,7 @@ extraManifests:
           http:
             paths:
             - path: /
-              pathType: ImplementationSpecific
+              pathType: Prefix
               backend:
                 service:
                   name: kube-prometheus-stack-alertmanager
@@ -4790,4 +4790,4 @@ extraManifests:
                 service:
                   name: kube-prometheus-stack-grafana
                   port:
-                    name: http
+                    number: 3000
