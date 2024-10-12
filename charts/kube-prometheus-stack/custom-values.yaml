@@ -391,44 +391,19 @@ alertmanager:
   #       {{ end }}
 
   ingress:
-    enabled: false
-
-    # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
-    # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
+    enabled: true
     ingressClassName: nginx
-
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
-      external-dns.alpha.kubernetes.io/hostname: alertmanager.g0b.dev
+      external-dns.alpha.kubernetes.io/hostname: alermanager.g0b.dev
 
     labels: {}
-
-    ## Override ingress to a different defined port on the service
-    # servicePort: 8081
-    ## Override ingress to a different service then the default, this is useful if you need to
-    ## point to a specific instance of the alertmanager (eg kube-prometheus-stack-alertmanager-0)
-    # serviceName: kube-prometheus-stack-alertmanager-0
-
-    ## Hosts must be provided if Ingress is enabled.
-    ##
     hosts:
-      - alertmanager.g0b.dev
-
-    ## Paths to use for ingress rules - one path should match the alertmanagerSpec.routePrefix
-    ##
+      - alermanager.g0b.dev
     paths: []
-    # - /
-
-    ## For Kubernetes >= 1.18 you should specify the pathType (determines how Ingress paths should be matched)
-    ## See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#better-path-matching-with-path-types
-    # pathType: ImplementationSpecific
-
-    ## TLS configuration for Alertmanager Ingress
-    ## Secret must be manually created in the namespace
-    ##
     tls:
     - hosts:
-      - alertmanager.g0b.dev
+      - alermanager.g0b.dev
       secretName: g0b-dev-tls
 
   ## Configuration for Alertmanager secret
@@ -987,7 +962,7 @@ grafana:
     pspEnabled: false
 
   ingress:
-    enabled: false
+    enabled: true
     ingressClassName: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -995,11 +970,11 @@ grafana:
     labels: {}
     hosts:
       - grafana.g0b.dev
-    path: /
+    paths: []
     tls:
-      - secretName: g0b-dev-tls
-        hosts:
-          - grafana.g0b.dev
+    - hosts:
+      - grafana.g0b.dev
+      secretName: g0b-dev-tls
 
   # # To make Grafana persistent (Using Statefulset)
   # #
@@ -4740,54 +4715,4 @@ thanosRuler:
 cleanPrometheusOperatorObjectNames: false
 
 ## Extra manifests to deploy as an array
-extraManifests:
-  - apiVersion: networking.k8s.io/v1
-    kind: Ingress
-    metadata:
-      name: kube-prometheus-stack-alertmanager
-      namespace: monitoring
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        external-dns.alpha.kubernetes.io/hostname: alertmanager.g0b.dev
-    spec:
-      ingressClassName: nginx
-      tls:
-        - hosts:
-          - alertmanager.g0b.dev
-          secretName: g0b-dev-tls
-      rules:
-        - host: alertmanager.g0b.dev
-          http:
-            paths:
-            - path: /
-              pathType: Prefix
-              backend:
-                service:
-                  name: kube-prometheus-stack-alertmanager
-                  port:
-                    number: 9093
-  - apiVersion: networking.k8s.io/v1
-    kind: Ingress
-    metadata:
-      name: kube-prometheus-stack-grafana
-      namespace: monitoring
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        external-dns.alpha.kubernetes.io/hostname: grafana.g0b.dev
-    spec:
-      ingressClassName: nginx
-      tls:
-        - hosts:
-          - grafana.g0b.dev
-          secretName: g0b-dev-tls
-      rules:
-        - host: grafana.g0b.dev
-          http:
-            paths:
-            - path: /
-              pathType: Prefix
-              backend:
-                service:
-                  name: kube-prometheus-stack-grafana
-                  port:
-                    number: 3000
+extraManifests: []
