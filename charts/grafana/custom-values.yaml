@@ -38,7 +38,7 @@ ingress:
     - grafana.g0b.dev
   tls:
   - hosts:
-    - argo.g0b.dev
+    - grafana.g0b.dev
     secretName: g0b-dev-tls
 
 ## Enable persistence using Persistent Volume Claims
