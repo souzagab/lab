@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: /charts/prometheus
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+    project: default
+
+    destination:
+      name: ""
+      server: https://kubernetes.default.svc
+      namespace: monitoring
+
+    source:
+      helm:
+        valueFiles:
+          - values.yaml
+          - custom-values.yaml
+      path: charts/prometheus
+      repoURL: https://github.com/souzagab/lab
+      targetRevision: main
+
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: false
+        allowEmpty: false
+      syncOptions:
+        - CreateNamespace=true
