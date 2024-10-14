@@ -14,7 +14,7 @@ server:
     tls:
       - hosts:
         - prometheus.g0b.dev
-        secretName: g0b-dev-tls
+        secretName: prometheus-g0b-dev-tls
 
   persistentVolume:
     enabled: true
