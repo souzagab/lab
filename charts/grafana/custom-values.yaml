@@ -79,11 +79,16 @@ plugins: []
 ## ref: http://docs.grafana.org/administration/provisioning/#datasources
 ##
 datasources:
-  - name: Prometheus
-    type: prometheus
-    url: http://prometheus-prometheus-server
-    access: proxy
-    isDefault: true
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-prometheus-server
+        access: proxy
+        isDefault: true
+    deleteDatasources:
+      - name: Prometheus
 
 ## Grafana's primary configuration
 ## NOTE: values in map will be converted to ini format
