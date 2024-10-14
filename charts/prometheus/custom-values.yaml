@@ -2,6 +2,7 @@
 server:
   ingress:
     enabled: true
+    ingressClassName: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       external-dns.alpha.kubernetes.io/hostname: prometheus.g0b.dev
