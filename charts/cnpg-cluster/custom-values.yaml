@@ -112,7 +112,7 @@ recovery:
 
 cluster:
   # -- Number of instances
-  instances: 3
+  instances: 1
 
   # -- Name of the container image, supporting both tags (<image>:<tag>) and digests for deterministic and repeatable deployments:
   # <image>:<tag>@sha256:<digestValue>
@@ -127,8 +127,8 @@ cluster:
   imagePullSecrets: []
 
   storage:
-    size: 8Gi
-    storageClass: ""
+    size: 80Gi
+    storageClass: "longhorn"
 
   walStorage:
     enabled: false
@@ -318,12 +318,12 @@ backups:
       method: barmanObjectStore
 
   # -- Retention policy for backups
-  retentionPolicy: "30d"
+  retentionPolicy: "10d"
 
 
 pooler:
   # -- Whether to enable PgBouncer
-  enabled: false
+  enabled: true
   # -- PgBouncer type of service to forward traffic to.
   type: rw
   # -- PgBouncer pooling mode
@@ -337,7 +337,7 @@ pooler:
 
   monitoring:
     # -- Whether to enable monitoring
-    enabled: false
+    enabled: true
     podMonitor:
         # -- Whether to enable the PodMonitor
       enabled: true
