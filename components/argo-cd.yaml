@@ -15,7 +15,7 @@ spec:
     source:
       helm:
         valueFiles:
-          - custom-values.yaml
+          - values.yaml
       path: charts/argo-cd
       repoURL: https://github.com/souzagab/lab
       targetRevision: main
