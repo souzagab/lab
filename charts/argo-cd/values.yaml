@@ -881,7 +881,7 @@ controller:
       annotations: {}
     rules:
       # -- Deploy a PrometheusRule for the application controller
-      enabled: true
+      enabled: false
       # -- PrometheusRule namespace
       namespace: "monitoring"
       # -- PrometheusRule selector
