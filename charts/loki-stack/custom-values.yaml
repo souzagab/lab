@@ -1,7 +1,7 @@
 
 loki:
   enabled: true
-  isDefault: true
+  isDefault: false
   url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
   readinessProbe:
     httpGet:
