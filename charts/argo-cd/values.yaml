@@ -835,7 +835,7 @@ controller:
   ## Application controller metrics configuration
   metrics:
     # -- Deploy metrics service
-    enabled: false
+    enabled: true
     # -- Prometheus ServiceMonitor scrapeTimeout. If empty, Prometheus uses the global scrape timeout unless it is less than the target's scrape interval value in which the latter is used.
     scrapeTimeout: ""
     applicationLabels:
@@ -881,7 +881,7 @@ controller:
       annotations: {}
     rules:
       # -- Deploy a PrometheusRule for the application controller
-      enabled: false
+      enabled: true
       # -- PrometheusRule namespace
       namespace: "monitoring"
       # -- PrometheusRule selector
@@ -940,7 +940,7 @@ dex:
 
   metrics:
     # -- Deploy metrics service
-    enabled: false
+    enabled: true
     service:
       # -- Metrics service annotations
       annotations: {}
@@ -1486,7 +1486,7 @@ redis:
 
   metrics:
     # -- Deploy metrics service
-    enabled: false
+    enabled: true
 
     # Redis metrics service configuration
     service:

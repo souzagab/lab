@@ -342,7 +342,7 @@ pooler:
 
   monitoring:
     # -- Whether to enable monitoring
-    enabled: false
+    enabled: true
     podMonitor:
         # -- Whether to enable the PodMonitor
       enabled: true
