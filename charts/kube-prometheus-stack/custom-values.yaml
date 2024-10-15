@@ -1,0 +1,80 @@
+
+alertmanager:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      external-dns.alpha.kubernetes.io/hostname: alertmanager.g0b.dev
+    labels: {}
+    hosts:
+      - alertmanager.g0b.dev
+    paths: []
+    tls:
+      - hosts:
+        - alertmanager.g0b.dev
+        secretName: alertmanager-g0b-dev-tls
+
+grafana:
+  enabled: true
+  adminPassword: prom-operator
+
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      external-dns.alpha.kubernetes.io/hostname: grafana.g0b.dev
+    labels: {}
+    hosts:
+      - grafana.g0b.dev
+    paths: []
+    tls:
+      - hosts:
+        - grafana.g0b.dev
+        secretName: grafana-g0b-dev-tls
+
+  persistence:
+    enabled: true
+    type: sts
+    storageClassName: longhorn
+    accessModes:
+      - ReadWriteOnce
+    size: 20Gi
+    finalizers:
+      - kubernetes.io/pvc-protection
+
+  serviceAccount:
+    create: true
+    autoMount: true
+
+prometheusOperator:
+  enabled: true
+
+prometheus:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      external-dns.alpha.kubernetes.io/hostname: prometheus.g0b.dev
+    labels: {}
+    hosts:
+      - prometheus.g0b.dev
+    paths: []
+    tls:
+      - hosts:
+        - prometheus.g0b.dev
+        secretName: prometheus-g0b-dev-tls
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 50Gi
+extraManifests: []
