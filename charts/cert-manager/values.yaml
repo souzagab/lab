@@ -482,7 +482,7 @@ prometheus:
     # Specifies the `prometheus` label on the created ServiceMonitor. This is
     # used when different Prometheus instances have label selectors matching
     # different ServiceMonitors.
-    prometheusInstance: default
+    prometheusInstance: kube-prometheus-stack
 
     # The target port to set on the ServiceMonitor. This must match the port that the
     # cert-manager controller is listening on for metrics.
@@ -498,9 +498,7 @@ prometheus:
     scrapeTimeout: 30s
 
     # Additional labels to add to the ServiceMonitor.
-    labels:
-      release: kube-prometheus-stack
-
+    labels: {}
 
     # Additional annotations to add to the ServiceMonitor.
     annotations: {}
