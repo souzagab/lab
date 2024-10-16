@@ -129,7 +129,6 @@ tolerations: []
 affinity: {}
 
 monitoring:
-
   # -- Specifies whether the monitoring should be enabled. Requires Prometheus Operator CRDs.
   podMonitorEnabled: true
   # -- Metrics relabel configurations to apply to samples before ingestion.
@@ -137,7 +136,8 @@ monitoring:
   # -- Relabel configurations to apply to samples before scraping.
   podMonitorRelabelings: []
   # -- Additional labels for the podMonitor
-  podMonitorAdditionalLabels: {}
+  podMonitorAdditionalLabels:
+    release: kube-prometheus-stack
 
   grafanaDashboard:
     create: true
