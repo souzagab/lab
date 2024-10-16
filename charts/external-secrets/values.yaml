@@ -174,7 +174,8 @@ serviceMonitor:
   namespace: monitoring
 
   # -- Additional labels
-  additionalLabels: {}
+  additionalLabels:
+    release: kube-prometheus-stack
 
   # --  Interval to scrape metrics
   interval: 30s
