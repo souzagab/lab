@@ -880,7 +880,7 @@ controller:
       annotations: {}
       ## The label to use to retrieve the job name from.
       ## jobLabel: "app.kubernetes.io/name"
-      namespace: monitoring
+      # namespace: monitoring
       namespaceSelector: {}
       ## Default: scrape .Release.Namespace or namespaceOverride only
       ## To scrape all, use the following:
