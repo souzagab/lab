@@ -167,7 +167,8 @@ serviceMonitor:
   # -- If `true`, create a `ServiceMonitor` resource to support the _Prometheus Operator_.
   enabled: true
   # -- Additional labels for the `ServiceMonitor`.
-  additionalLabels: {}
+  additionalLabels:
+    release: kube-prometheus-stack
   # -- Annotations to add to the `ServiceMonitor`.
   annotations: {}
   # -- (string) If set create the `ServiceMonitor` in an alternate namespace.
