@@ -3,10 +3,11 @@ serviceMonitor:
   enabled: true
 
   # -- namespace where you want to install ServiceMonitors
-  namespace: monitoring
+  # namespace: monitoring
 
   # -- Additional labels
-  additionalLabels: {}
+  additionalLabels:
+    release: kube-prometheus-stack
 
   # --  Interval to scrape metrics
   interval: 30s
