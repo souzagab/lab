@@ -174,9 +174,9 @@ serviceMonitor:
   # -- (string) If set create the `ServiceMonitor` in an alternate namespace.
   namespace: monitoring
   # -- (string) If set override the _Prometheus_ default interval.
-  interval:
+  interval: 30s
   # -- (string) If set override the _Prometheus_ default scrape timeout.
-  scrapeTimeout:
+  scrapeTimeout: 25s
   # -- (string) If set overrides the _Prometheus_ default scheme.
   scheme:
   # -- Configure the `ServiceMonitor` [TLS config](https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#tlsconfig).
