@@ -1,0 +1,59 @@
+
+## Ingress
+## Ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    external-dns.alpha.kubernetes.io/hostname: pgadmin.g0b.dev
+  hosts:
+    - host: "pgadmin.g0b.dev"
+      paths:
+        - path: "/"
+          pathType: Prefix
+  tls:
+    - secretName: "g0b-dev-tls"
+      hosts:
+        - "pgadmin.g0b.dev"
+
+## @param existingSecret Name of existing secret to use for default pgadmin credentials. `env.password` will be ignored and picked up from this secret.
+##
+existingSecret: ""
+## @param secretKeys.pgadminPasswordKey Name of key in existing secret to use for default pgadmin credentials. Only used when `existingSecret` is set.
+##
+secretKeys:
+  pgadminPasswordKey: password
+
+## pgAdmin4 startup configuration
+## Values in here get injected as environment variables
+## Needed chart reinstall for apply changes
+env:
+  # can be email or nickname
+  email: chart@domain.com
+  password: SuperSecret
+
+persistentVolume:
+  enabled: true
+  annotations: {}
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+  storageClass: "longhorn"
+  subPath: ""
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+## @param extraDeploy list of extra manifests to deploy
+##
+extraDeploy: []
