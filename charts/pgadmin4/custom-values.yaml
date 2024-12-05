@@ -1,22 +1,4 @@
 
-## Ingress
-## Ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
-ingress:
-  enabled: true
-  className: "nginx"
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    external-dns.alpha.kubernetes.io/hostname: pgadmin.g0b.dev
-  hosts:
-    - host: "pgadmin.g0b.dev"
-      paths:
-        - path: "/"
-          pathType: Prefix
-  tls:
-    - secretName: "g0b-dev-tls"
-      hosts:
-        - "pgadmin.g0b.dev"
-
 ## @param existingSecret Name of existing secret to use for default pgadmin credentials. `env.password` will be ignored and picked up from this secret.
 ##
 existingSecret: ""
@@ -59,4 +41,30 @@ resources: {}
 
 ## @param extraDeploy list of extra manifests to deploy
 ##
-extraDeploy: []
+extraDeploy:
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: pgadmin-pgadmin4
+    namespace: pg-admin
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      external-dns.alpha.kubernetes.io/hostname: pg.g0b.dev
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+  spec:
+    ingressClassName: nginx
+    tls:
+    - hosts:
+      - pg.g0b.dev
+      secretName: pg-g0b-dev-tls
+    rules:
+    - host: pg.g0b.dev
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: pg-admin-pgadmin4
+              port:
+                name: http
