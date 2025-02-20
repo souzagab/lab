@@ -1,33 +1,33 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: cnpg-cluster
-  annotations:
-    argocd.argoproj.io/manifest-generate-paths: /charts/cnpg-cluster
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: cnpg-cluster
+#   annotations:
+#     argocd.argoproj.io/manifest-generate-paths: /charts/cnpg-cluster
+#   finalizers:
+#     - resources-finalizer.argocd.argoproj.io
 
-spec:
-    project: default
+# spec:
+#     project: default
 
-    destination:
-      name: ""
-      server: https://kubernetes.default.svc
-      namespace: cnpg-database
+#     destination:
+#       name: ""
+#       server: https://kubernetes.default.svc
+#       namespace: cnpg-database
 
-    source:
-      helm:
-        valueFiles:
-          - values.yaml
-          - custom-values.yaml
-      path: charts/cnpg-cluster
-      repoURL: https://github.com/souzagab/lab
-      targetRevision: main
+#     source:
+#       helm:
+#         valueFiles:
+#           - values.yaml
+#           - custom-values.yaml
+#       path: charts/cnpg-cluster
+#       repoURL: https://github.com/souzagab/lab
+#       targetRevision: main
 
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: false
-        allowEmpty: false
-      syncOptions:
-        - CreateNamespace=true
+#     syncPolicy:
+#       automated:
+#         prune: true
+#         selfHeal: false
+#         allowEmpty: false
+#       syncOptions:
+#         - CreateNamespace=true
