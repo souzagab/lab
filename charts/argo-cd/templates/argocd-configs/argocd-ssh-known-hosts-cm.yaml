@@ -1,4 +1,3 @@
-{{- if .Values.configs.ssh.create }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -18,4 +17,3 @@ data:
     {{- with .Values.configs.ssh.extraHosts }}
       {{- . | nindent 4 }}
     {{- end }}
-{{- end }}

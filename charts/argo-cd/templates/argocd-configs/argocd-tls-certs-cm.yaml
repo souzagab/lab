@@ -1,4 +1,3 @@
-{{- if .Values.configs.tls.create }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -15,5 +14,4 @@ metadata:
 {{- with .Values.configs.tls.certificates }}
 data:
   {{- toYaml . | nindent 2 }}
-{{- end }}
 {{- end }}

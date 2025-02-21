@@ -33,9 +33,6 @@ spec:
         {{- end }}
       {{- end }}
     spec:
-      {{- with .Values.redis.runtimeClassName | default .Values.global.runtimeClassName }}
-      runtimeClassName: {{ . }}
-      {{- end }}
       {{- with .Values.redis.imagePullSecrets | default .Values.global.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

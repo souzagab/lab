@@ -178,30 +178,12 @@ Create the name of the notifications service account to use
 {{- end -}}
 
 {{/*
-Create argocd commit-server name and version as used by the chart label.
-*/}}
-{{- define "argo-cd.commitServer.fullname" -}}
-{{- printf "%s-%s" (include "argo-cd.fullname" .) .Values.commitServer.name | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{/*
-Create the name of the commit-server service account to use
-*/}}
-{{- define "argo-cd.commitServer.serviceAccountName" -}}
-{{- if .Values.commitServer.serviceAccount.create -}}
-    {{ default (include "argo-cd.commitServer.fullname" .) .Values.commitServer.serviceAccount.name }}
-{{- else -}}
-    {{ default "default" .Values.commitServer.serviceAccount.name }}
-{{- end -}}
-{{- end -}}
-
-{{/*
 Argo Configuration Preset Values (Influenced by Values configuration)
 */}}
 {{- define "argo-cd.config.cm.presets" -}}
 {{- $presets := dict -}}
 {{- $_ := set $presets "url" (printf "https://%s" .Values.global.domain) -}}
-{{- if eq (toString (index .Values.configs.cm "statusbadge.enabled")) "true" -}}
+{{- if index .Values.configs.cm "statusbadge.enabled" | eq true -}}
 {{- $_ := set $presets "statusbadge.url" (printf "https://%s/" .Values.global.domain) -}}
 {{- end -}}
 {{- if .Values.configs.styles -}}

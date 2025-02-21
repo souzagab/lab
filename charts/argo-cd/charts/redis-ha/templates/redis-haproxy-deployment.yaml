@@ -49,8 +49,7 @@ spec:
       {{- else }}
       serviceAccountName: {{ .Values.haproxy.serviceAccountName }}
       {{- end }}
-      securityContext: {{- include "compatibility.renderSecurityContext" (dict "secContext" .Values.haproxy.securityContext "context" $) | nindent 8 }}
-      automountServiceAccountToken: {{ .Values.haproxy.serviceAccount.automountToken }}
+      securityContext: {{ toYaml .Values.haproxy.securityContext | nindent 8 }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
       tolerations:
@@ -103,7 +102,7 @@ spec:
         - sh
         args:
         - /readonly/haproxy_init.sh
-        securityContext: {{- include "compatibility.renderSecurityContext" (dict "secContext" .Values.haproxy.containerSecurityContext "context" $) | nindent 10 }}
+        securityContext: {{ toYaml .Values.haproxy.containerSecurityContext | nindent 10 }}
         volumeMounts:
         - name: config-volume
           mountPath: /readonly
@@ -117,7 +116,7 @@ spec:
       - name: haproxy
         image: {{ .Values.haproxy.image.repository }}:{{ .Values.haproxy.image.tag }}
         imagePullPolicy: {{ .Values.haproxy.image.pullPolicy }}
-        securityContext: {{- include "compatibility.renderSecurityContext" (dict "secContext" .Values.haproxy.containerSecurityContext "context" $) | nindent 10 }}
+        securityContext: {{ toYaml .Values.haproxy.containerSecurityContext | nindent 10 }}
     {{- if or .Values.auth .Values.sentinel.auth}}
         env:
       {{- if .Values.auth }}
@@ -146,18 +145,16 @@ spec:
         livenessProbe:
           httpGet:
             path: /healthz
-            port: probe
+            port: 8888
           initialDelaySeconds: 5
           periodSeconds: 3
         readinessProbe:
           httpGet:
             path: /healthz
-            port: probe
+            port: 8888
           initialDelaySeconds: 5
           periodSeconds: 3
         ports:
-        - name: probe
-          containerPort: 8888
         - name: redis
           containerPort: {{ default "6379" .Values.haproxy.containerPort }}
         {{- if .Values.haproxy.readOnly.enabled }}
@@ -181,9 +178,9 @@ spec:
 {{- end }}
         lifecycle:
 {{ toYaml .Values.haproxy.lifecycle | indent 10 }}
-      {{- with .Values.haproxy.priorityClassName | default .Values.global.priorityClassName }}
-      priorityClassName: {{ . }}
-      {{- end }}
+{{- if .Values.haproxy.priorityClassName }}
+      priorityClassName: {{ .Values.haproxy.priorityClassName }}
+{{- end }}
       volumes:
 {{- if .Values.haproxy.tls.enabled }}
       - name: pemfile
