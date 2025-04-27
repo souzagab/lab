@@ -9,7 +9,7 @@ spec:
   project: default # Or a specific Argo CD project if you've configured them
 
   source:
-    repoURL: https://github.com/argo-proj/argo-helm # Official Argo CD Helm chart repository
+    repoURL: https://argoproj.github.io/argo-helm # Correct Helm repository URL
     targetRevision: "7.8.28"
     chart: argo-cd
     helm:
