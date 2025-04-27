@@ -8,13 +8,26 @@ metadata:
 spec:
   project: default # Or a specific Argo CD project if you've configured them
 
-  source:
-    repoURL: https://argoproj.github.io/argo-helm # Correct Helm repository URL
-    targetRevision: "7.8.28"
-    chart: argo-cd
+  # Use 'sources' (plural) to define multiple sources
+  sources:
+    # Source 1: The Helm chart itself
+    - repoURL: https://argoproj.github.io/argo-helm # Correct Helm repository URL
+      targetRevision: "7.8.28"
+      chart: argo-cd
+      # Give this source a reference name for clarity (optional but good practice)
+      ref: chart
+
+    # Source 2: The Git repository containing the values file
+    - repoURL: https://github.com/souzagab/lab # Your Git repository
+      targetRevision: HEAD # Or your specific branch/tag
+      # Give this source a reference name to use in valueFiles path
+      ref: valuesRepo
+
+    # Helm configuration now references the values file from the named Git source
     helm:
       valueFiles:
-        - $values/config/argo-cd/values.yaml
+        # Reference the values file using the format: $values/<ref_name_of_git_source>/<path_within_that_repo>
+        - $values/valuesRepo/config/argo-cd/values.yaml
 
   destination:
     server: https://kubernetes.default.svc # Target the local cluster where this Argo CD runs
