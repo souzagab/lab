@@ -8,13 +8,14 @@ metadata:
 spec:
   project: default
 
-  source:
-    repoURL: https://github.com/souzagab/lab
-    targetRevision: HEAD
-    path: charts/argo-cd
-    helm:
-      valueFiles:
-        - config/argo-cd/values.yaml
+    source:
+      repoURL: https://github.com/souzagab/lab
+      targetRevision: main
+      path: charts/argo-cd
+
+      helm:
+        valueFiles:
+          - custom-values.yaml
 
   destination:
     server: https://kubernetes.default.svc
