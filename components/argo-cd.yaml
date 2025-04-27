@@ -2,49 +2,36 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: argo-cd
-  namespace: argocd # This should be the namespace where Argo CD itself is running
+  namespace: argocd
   finalizers:
-    - argocd.argoproj.io/resources-finalizer # Updated format (Ensures resources are deleted when the app is deleted)
+    - argocd.argoproj.io/resources-finalizer
 spec:
-  project: default # Or a specific Argo CD project if you've configured them
+  project: default
 
-  # Use 'sources' (plural) to define multiple sources
   sources:
-    # Source 1: The Helm chart itself
-    - repoURL: https://argoproj.github.io/argo-helm # Correct Helm repository URL
+    - repoURL: https://argoproj.github.io/argo-helm
       targetRevision: "7.8.28"
       chart: argo-cd
-      # Give this source a reference name for clarity (optional but good practice)
       ref: chart
+      helm:
+        valueFiles:
+          - $values/valuesRepo/config/argo-cd/values.yaml
 
-    # Source 2: The Git repository containing the values file
-    - repoURL: https://github.com/souzagab/lab # Your Git repository
-      targetRevision: HEAD # Or your specific branch/tag
-      # Give this source a reference name to use in valueFiles path
+    - repoURL: https://github.com/souzagab/lab
+      targetRevision: HEAD 
       ref: valuesRepo
 
-    # Helm configuration now references the values file from the named Git source
-    helm:
-      valueFiles:
-        # Reference the values file using the format: $values/<ref_name_of_git_source>/<path_within_that_repo>
-        - $values/valuesRepo/config/argo-cd/values.yaml
-
   destination:
-    server: https://kubernetes.default.svc # Target the local cluster where this Argo CD runs
-    namespace: argocd # Deploy Argo CD components into the 'argocd' namespace
+    server: https://kubernetes.default.svc
+    namespace: argocd
 
   syncPolicy:
     automated:
-      prune: true    # Automatically delete resources that are no longer defined in Git
-      selfHeal: true # Automatically sync if the live state drifts from Git
+      prune: true
+      selfHeal: true
     syncOptions:
-      - CreateNamespace=true # Ensure the target namespace exists
-      # Apply CRDs first if the chart includes them and needs them available
-      # before other resources. Check the specific chart's recommendations.
-      # - ApplyOutOfSyncOnly=true # Avoid unnecessary syncs if nothing changed
-      - PrunePropagationPolicy=foreground # Ensures dependents are deleted before the owner
-      # You might want to ignore differences in fields managed by other controllers
-      # (e.g., status fields, or replicas managed by HPA)
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
       # ignoreDifferences:
       # - group: apps
       #   kind: Deployment
