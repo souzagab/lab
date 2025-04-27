@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-cd
+  namespace: argocd # This should be the namespace where Argo CD itself is running
+  finalizers:
+    - argocd.argoproj.io/resources-finalizer # Updated format (Ensures resources are deleted when the app is deleted)
+spec:
+  project: default # Or a specific Argo CD project if you've configured them
+
+  source:
+    repoURL: https://github.com/argo-proj/argo-helm # Official Argo CD Helm chart repository
+    targetRevision: "7.8.28"
+    chart: argo-cd
+    helm:
+      valueFiles:
+        - $values/config/argo-cd/values.yaml
+
+  destination:
+    server: https://kubernetes.default.svc # Target the local cluster where this Argo CD runs
+    namespace: argocd # Deploy Argo CD components into the 'argocd' namespace
+
+  syncPolicy:
+    automated:
+      prune: true    # Automatically delete resources that are no longer defined in Git
+      selfHeal: true # Automatically sync if the live state drifts from Git
+    syncOptions:
+      - CreateNamespace=true # Ensure the target namespace exists
+      # Apply CRDs first if the chart includes them and needs them available
+      # before other resources. Check the specific chart's recommendations.
+      # - ApplyOutOfSyncOnly=true # Avoid unnecessary syncs if nothing changed
+      - PrunePropagationPolicy=foreground # Ensures dependents are deleted before the owner
+      # You might want to ignore differences in fields managed by other controllers
+      # (e.g., status fields, or replicas managed by HPA)
+      # ignoreDifferences:
+      # - group: apps
+      #   kind: Deployment
+      #   jsonPointers:
+      #   - /spec/replicas 

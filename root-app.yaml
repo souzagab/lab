@@ -1,0 +1,34 @@
+# root-app.yaml: Defines the main Argo CD Application that manages all other apps.
+# Apply this manually once after installing Argo CD: kubectl apply -f root-app.yaml -n argocd
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root
+  namespace: argocd
+  finalizers:
+    - argocd.argoproj.io/resources-finalizer
+
+spec:
+  project: default
+
+  destination:
+    name: ""
+    server: https://kubernetes.default.svc
+    namespace: argocd
+
+  sources:
+    - path: components
+      repoURL: https://github.com/souzagab/lab
+      targetRevision: main
+
+    - path: apps
+      repoURL: https://github.com/souzagab/lab
+      targetRevision: main
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true 
