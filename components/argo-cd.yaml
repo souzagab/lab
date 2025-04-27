@@ -8,19 +8,13 @@ metadata:
 spec:
   project: default
 
-  sources:
-    # Source 1: The Helm chart itself
-    - repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: "7.8.28"
-      chart: argo-cd
-      helm:
-        valueFiles:
-          - $values/valuesRepo/config/argo-cd/values.yaml
-
-    # Source 2: The Git repository containing the values file
-    - repoURL: https://github.com/souzagab/lab
-      targetRevision: HEAD
-      ref: valuesRepo
+  source:
+    repoURL: https://github.com/souzagab/lab
+    targetRevision: HEAD
+    path: charts/argo-cd
+    helm:
+      valueFiles:
+        - config/argo-cd/values.yaml
 
   destination:
     server: https://kubernetes.default.svc
