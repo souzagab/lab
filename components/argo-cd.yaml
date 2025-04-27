@@ -7,8 +7,13 @@ metadata:
     argocd.argoproj.io/manifest-generate-paths: /charts/argo-cd
   finalizers:
     - argocd.argoproj.io/resources-finalizer
+
 spec:
   project: default
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
 
   source:
     repoURL: https://github.com/souzagab/lab
@@ -17,9 +22,6 @@ spec:
     helm:
       valueFiles:
         - custom-values.yaml
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argocd
 
   syncPolicy:
     automated:
