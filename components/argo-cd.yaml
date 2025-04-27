@@ -9,16 +9,17 @@ spec:
   project: default
 
   sources:
+    # Source 1: The Helm chart itself
     - repoURL: https://argoproj.github.io/argo-helm
       targetRevision: "7.8.28"
       chart: argo-cd
-      ref: chart
       helm:
         valueFiles:
           - $values/valuesRepo/config/argo-cd/values.yaml
 
+    # Source 2: The Git repository containing the values file
     - repoURL: https://github.com/souzagab/lab
-      targetRevision: HEAD 
+      targetRevision: HEAD
       ref: valuesRepo
 
   destination:
