@@ -5,6 +5,7 @@ metadata:
   namespace: argocd
   annotations:
     argocd.argoproj.io/manifest-generate-paths: /charts/argo-cd
+    argocd.argoproj.io/sync-wave: "-1"
   finalizers:
     - argocd.argoproj.io/resources-finalizer
 
