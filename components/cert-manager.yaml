@@ -20,7 +20,7 @@ spec:
     targetRevision: main
     path: charts/cert-manager
     helm:
-      valuesFiles:
+      valueFiles:
         - custom-values.yaml
 
   syncPolicy:
