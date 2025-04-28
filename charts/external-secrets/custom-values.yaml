@@ -2,23 +2,23 @@
 installCRDs: true
 
 ## -- Extra Kubernetes objects to deploy with the helm chart
-extraObjects:
-    # Add the doppler token to the external-secrets namespace
-    # kubectl create secret generic doppler-token \
-    #   --from-literal=token='<YOUR_DOPPLER_TOKEN_HERE>' \
-    #   -n external-secrets
-  - apiVersion: external-secrets.io/v1alpha1
-    kind: ClusterSecretStore
-    metadata:
-      name: doppler
-      namespace: external-secrets
-    spec:
-      provider:
-        doppler:
-          auth:
-            secretRef:
-              dopplerToken:
-                name: doppler-token
-                key: token
-                namespace: external-secrets
+# extraObjects:
+#     # Add the doppler token to the external-secrets namespace
+#     # kubectl create secret generic doppler-token \
+#     #   --from-literal=token='<YOUR_DOPPLER_TOKEN_HERE>' \
+#     #   -n external-secrets
+#   - apiVersion: external-secrets.io/v1alpha1
+#     kind: ClusterSecretStore
+#     metadata:
+#       name: doppler
+#       namespace: external-secrets
+#     spec:
+#       provider:
+#         doppler:
+#           auth:
+#             secretRef:
+#               dopplerToken:
+#                 name: doppler-token
+#                 key: token
+#                 namespace: external-secrets
 
