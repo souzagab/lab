@@ -5,9 +5,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-9"
     argocd.argoproj.io/manifest-generate-paths: /charts/cert-manager
-
-    finalizers:
-      - resources-finalizer.argocd.argoproj.io
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 
 spec:
   project: default
