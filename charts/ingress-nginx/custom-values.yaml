@@ -1,0 +1,69 @@
+## -- Extra Kubernetes objects to deploy with the helm chart
+extraObjects:
+  - apiVersion: external-secrets.io/v1beta1
+    kind: ExternalSecret
+    metadata:
+      name: cloudflare-token
+      namespace: ingress-nginx
+      annotations:
+    spec:
+      refreshInterval: "1800s"
+      secretStoreRef:
+        name: doppler
+        kind: ClusterSecretStore
+      target:
+        name: cloudflare-token
+        creationPolicy: Owner
+      data:
+        - secretKey: api-token
+          remoteRef:
+            key: CLOUDFLARE_KEY_VALUE
+  - apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: letsencrypt-stage
+      namespace: ingress-nginx
+      annotations:
+    spec:
+      acme:
+        email: me@souzagab.com
+        server: https://acme-staging-v02.api.letsencrypt.org/directory
+        privateKeySecretRef:
+          name: letsencrypt-stage
+        solvers:
+          - dns01:
+              cloudflare:
+                apiTokenSecretRef:
+                  name: cloudflare-token
+                  key: api-token
+  - apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: letsencrypt-prod
+      namespace: ingress-nginx
+      annotations:
+    spec:
+      acme:
+        email: me@souzagab.com
+        server: https://acme-v02.api.letsencrypt.org/directory
+        privateKeySecretRef:
+          name: letsencrypt-prod
+        solvers:
+          - dns01:
+              cloudflare:
+                apiTokenSecretRef:
+                  name: cloudflare-token
+                  key: api-token
+  - apiVersion: cert-manager.io/v1
+    kind: Certificate
+    metadata:
+      name: g0b-dev-tls
+      namespace: ingress-nginx
+    spec:
+      secretName: g0b-dev-tls
+      issuerRef:
+        name: letsencrypt-prod
+        kind: ClusterIssuer
+      commonName: "*.g0b.dev"
+      dnsNames:
+        - "*.g0b.dev"
