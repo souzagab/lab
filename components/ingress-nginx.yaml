@@ -1,10 +1,10 @@
 # apiVersion: argoproj.io/v1alpha1
 # kind: Application
 # metadata:
-#   name: external-dns
+#   name: ingress-nginx
 #   annotations:
-#     argocd.argoproj.io/manifest-generate-paths: /charts/external-dns
-#     argocd.argoproj.io/sync-wave: "-7"
+#     argocd.argoproj.io/manifest-generate-paths: /charts/ingress-nginx
+#     argocd.argoproj.io/sync-wave: "-5"
 #   finalizers:
 #     - resources-finalizer.argocd.argoproj.io
 # spec:
@@ -13,12 +13,12 @@
 #     destination:
 #       name: ""
 #       server: https://kubernetes.default.svc
-#       namespace: external-dns
+#       namespace: ingress-nginx
 
 #     source:
 #       repoURL: https://github.com/souzagab/lab
 #       targetRevision: main
-#       path: charts/external-dns
+#       path: charts/ingress-nginx
 #       helm:
 #         valueFiles:
 #           - custom-values.yaml

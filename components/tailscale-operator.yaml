@@ -1,31 +1,32 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: tailscale-operator
-#   annotations:
-#     argocd.argoproj.io/manifest-generate-paths: /charts/tailscale-operator
-#   finalizers:
-#     - resources-finalizer.argocd.argoproj.io
-# spec:
-#     project: default
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tailscale-operator
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: /charts/tailscale-operator
+    argocd.argoproj.io/sync-wave: "-6"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+    project: default
 
-#     destination:
-#       name: ""
-#       server: https://kubernetes.default.svc
-#       namespace: tailscale
+    destination:
+      name: ""
+      server: https://kubernetes.default.svc
+      namespace: tailscale
 
-#     source:
-#       repoURL: https://github.com/souzagab/lab
-#       targetRevision: main
-#       path: charts/tailscale-operator
-#       helm:
-#         valueFiles:
-#           - custom-values.yaml
+    source:
+      repoURL: https://github.com/souzagab/lab
+      targetRevision: main
+      path: charts/tailscale-operator
+      helm:
+        valueFiles:
+          - custom-values.yaml
 
-#     syncPolicy:
-#       automated:
-#         prune: true
-#         selfHeal: false
-#         allowEmpty: false
-#       syncOptions:
-#         - CreateNamespace=true
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: false
+        allowEmpty: false
+      syncOptions:
+        - CreateNamespace=true

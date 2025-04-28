@@ -1,0 +1,36 @@
+installCRDs: true
+ingressClass:
+  enabled: false
+
+operatorConfig:
+  # ACL tag that operator will be tagged with. Operator must be made owner of
+  # these tags
+  # https://tailscale.com/kb/1236/kubernetes-operator/?q=operator#setting-up-the-kubernetes-operator
+  # Multiple tags are defined as array items and passed to the operator as a comma-separated string
+  defaultTags:
+    - "tag:k8s-operator"
+
+## -- Extra Kubernetes objects to deploy with the helm chart
+extraObjects:
+  - apiVersion: external-secrets.io/v1beta1
+    kind: ExternalSecret
+    metadata:
+      name: tailscale-oauth
+      namespace: tailscale
+    spec:
+      refreshInterval: "1800s"
+      secretStoreRef:
+        name: doppler
+        kind: ClusterSecretStore
+      target:
+        name: operator-oauth
+        creationPolicy: Owner
+      data:
+        - secretKey: client_id
+          remoteRef:
+            key: TAILSCALE_OAUTH_CLIENT_ID
+        - secretKey: client_secret
+          remoteRef:
+            key: TAILSCALE_OAUTH_CLIENT_SECRET
+
+
