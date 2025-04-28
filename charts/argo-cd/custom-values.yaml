@@ -2,21 +2,52 @@
 # Refer to the official chart documentation for available options:
 # https://github.com/argo-proj/argo-helm/blob/main/charts/argo-cd/values.yaml
 
-# extraObjects:
-#   - apiVersion: external-secrets.io/v1beta1
-#     kind: ExternalSecret
-#     metadata:
-#       name: argocd
-#       namespace: argocd
-#     spec:
-#       refreshInterval: "1800s"
-#       secretStoreRef:
-#         name: doppler
-#         kind: ClusterSecretStore
-#       target:
-#         name: argocd-secret
-#         creationPolicy: Merge
-#       data:
-#         - secretKey: admin.password
-#           remoteRef:
-#             key: ARGOCD_ADMIN_PASSWORD
+config:
+  params:
+    server.insecure: true
+
+extraObjects:
+- apiVersion: external-secrets.io/v1beta1
+  kind: ExternalSecret
+  metadata:
+    name: argocd
+    namespace: argocd
+  spec:
+    refreshInterval: "1800s"
+    secretStoreRef:
+      name: doppler
+      kind: ClusterSecretStore
+    target:
+      name: argocd-secret
+      creationPolicy: Merge
+    data:
+    - secretKey: admin.password
+      remoteRef:
+        key: ARGOCD_ADMIN_PASSWORD
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: argocd-server
+    namespace: argocd
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      external-dns.alpha.kubernetes.io/hostname: argo.g0b.dev
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+  spec:
+    ingressClassName: nginx
+    tls:
+    - hosts:
+      - argo.g0b.dev
+      secretName: g0b-dev-tls
+    rules:
+    - host: argo.g0b.dev
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: argo-cd-argocd-server # TODO: Understand and change argocd deployment
+              port:
+                name: http
+
