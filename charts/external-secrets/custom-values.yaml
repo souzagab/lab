@@ -1,3 +1,6 @@
+# -- If set, install and upgrade CRDs through helm chart.
+installCRDs: true
+
 ## -- Extra Kubernetes objects to deploy with the helm chart
 extraObjects:
     # Add the doppler token to the external-secrets namespace
