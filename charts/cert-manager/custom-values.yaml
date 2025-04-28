@@ -1,0 +1,19 @@
+# Create dynamic manifests via values.
+extraObjects:
+  - apiVersion: external-secrets.io/v1beta1
+    kind: ExternalSecret
+    metadata:
+      name: cloudflare-token
+      namespace: cert-manager
+    spec:
+      refreshInterval: "1800s"
+      secretStoreRef:
+        name: doppler
+        kind: ClusterSecretStore
+      target:
+        name: cloudflare-token
+        creationPolicy: Owner
+      data:
+        - secretKey: api-token
+          remoteRef:
+            key: CLOUDFLARE_KEY_VALUE
