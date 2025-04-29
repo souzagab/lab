@@ -2,9 +2,24 @@
 # Refer to the official chart documentation for available options:
 # https://github.com/argo-proj/argo-helm/blob/main/charts/argo-cd/values.yaml
 
-config:
-  params:
-    server.insecure: true
+
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  hosts:
+    - argo.g0b.dev
+  paths:
+    - /
+  pathType: Prefix
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/hostname: argo.g0b.dev
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  tls:
+    - secretName: g0b-dev-tls
+      hosts:
+        - argo.g0b.dev
 
 extraObjects:
 - apiVersion: external-secrets.io/v1beta1
@@ -24,29 +39,3 @@ extraObjects:
     - secretKey: admin.password
       remoteRef:
         key: ARGOCD_ADMIN_PASSWORD
-- apiVersion: networking.k8s.io/v1
-  kind: Ingress
-  metadata:
-    name: argocd-server
-    namespace: argocd
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      external-dns.alpha.kubernetes.io/hostname: argo.g0b.dev
-  spec:
-    ingressClassName: nginx
-    tls:
-    - hosts:
-      - argo.g0b.dev
-      secretName: g0b-dev-tls
-    rules:
-    - host: argo.g0b.dev
-      http:
-        paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: argo-cd-argocd-server # TODO: Understand and change argocd deployment
-              port:
-                name: http
-
