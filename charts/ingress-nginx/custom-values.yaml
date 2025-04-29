@@ -4,6 +4,11 @@ controller:
     patch:
       enabled: true
 
+  service:
+    # -- Load balancer class of the external controller service. Used by cloud providers to select a load balancer implementation other than the cloud provider default.
+    # Ref: https://kubernetes.io/docs/concepts/services-networking/service/#load-balancer-class
+    loadBalancerClass: tailscale
+
 ## -- Extra Kubernetes objects to deploy with the helm chart
 extraObjects:
   - apiVersion: external-secrets.io/v1beta1
