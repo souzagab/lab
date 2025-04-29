@@ -1,3 +1,9 @@
+controller:
+  admissionWebhooks:
+    enabled: true
+    patch:
+      enabled: true
+
 ## -- Extra Kubernetes objects to deploy with the helm chart
 extraObjects:
   - apiVersion: external-secrets.io/v1beta1
