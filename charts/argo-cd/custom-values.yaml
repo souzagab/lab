@@ -32,7 +32,6 @@ extraObjects:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       external-dns.alpha.kubernetes.io/hostname: argo.g0b.dev
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
   spec:
     ingressClassName: nginx
     tls:
