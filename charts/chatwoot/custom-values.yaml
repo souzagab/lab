@@ -24,3 +24,9 @@ ingress:
 env:
   FRONTEND_URL: "https://chatwoot.g0b.dev"
   SECRET_KEY_BASE: "secret" # TODO: Move to ExternalSecret
+
+postgresql:
+  image:
+    registry: ghcr.io
+    repository: chatwoot/pgvector
+    tag: 14.4.0
