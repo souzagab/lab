@@ -27,6 +27,6 @@ env:
 
 postgresql:
   image:
-    registry: ghcr.io
-    repository: chatwoot/pgvector
-    tag: 14.4.0
+    registry: docker.io
+    repository: pgvector/pgvector
+    tag: pg15
