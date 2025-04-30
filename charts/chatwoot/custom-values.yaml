@@ -1,0 +1,21 @@
+# Custom values for Chatwoot Helm chart
+
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/hostname: chatwoot.g0b.dev
+  hosts:
+    - host: chatwoot.g0b.dev
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: chatwoot-tls
+      hosts:
+        - chatwoot.g0b.dev
+
+env:
+  FRONTEND_URL: "https://chatwoot.g0b.dev"
+  SECRET_KEY_BASE: "secret" # TODO: Move to ExternalSecret
