@@ -30,3 +30,9 @@ postgresql:
     registry: docker.io
     repository: pgvector/pgvector
     tag: pg15
+
+redis:
+  image:
+    registry: docker.io
+    repository: redis
+    tag: 7-alpine
