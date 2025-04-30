@@ -2,24 +2,24 @@
 # Refer to the official chart documentation for available options:
 # https://github.com/argo-proj/argo-helm/blob/main/charts/argo-cd/values.yaml
 
-
-ingress:
-  enabled: true
-  ingressClassName: "nginx"
-  hosts:
-    - argo.g0b.dev
-  paths:
-    - /
-  pathType: Prefix
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    external-dns.alpha.kubernetes.io/hostname: argo.g0b.dev
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-  tls:
-    - secretName: g0b-dev-tls
-      hosts:
-        - argo.g0b.dev
+server:
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    hosts:
+      - argo.g0b.dev
+    paths:
+      - /
+    pathType: Prefix
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      external-dns.alpha.kubernetes.io/hostname: argo.g0b.dev
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    tls:
+      - secretName: g0b-dev-tls
+        hosts:
+          - argo.g0b.dev
 
 extraObjects:
 - apiVersion: external-secrets.io/v1beta1
