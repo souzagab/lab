@@ -34,5 +34,5 @@ postgresql:
 redis:
   image:
     registry: docker.io
-    repository: redis
-    tag: 7-alpine
+    repository: arm64v8/redis
+    tag: 6
