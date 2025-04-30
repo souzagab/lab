@@ -1,6 +1,8 @@
 # Placeholder for Argo CD Helm chart values.
 # Refer to the official chart documentation for available options:
 # https://github.com/argo-proj/argo-helm/blob/main/charts/argo-cd/values.yaml
+global:
+  domain: argo.g0b.dev
 
 server:
   ingress:
