@@ -61,9 +61,11 @@ evolutionApi:
     # ... (Keep webhook events flags as they are or make them configurable)
 
     # Phone client settings
-    CONFIG_SESSION_PHONE_CLIENT: Evolution API
+    CONFIG_SESSION_PHONE_CLIENT: Chatwoot
     CONFIG_SESSION_PHONE_NAME: Chrome
     CONFIG_SESSION_PHONE_VERSION: 2.3000.1015901307
+
+    CHATWOOT_ENABLED: "true"
 
     # QR Code settings
     QRCODE_LIMIT: "30"
@@ -75,12 +77,17 @@ evolutionApi:
     # Language
     LANGUAGE: en
 
+  service:
+    type: ClusterIP
+    port: 8080
+
   ingress:
     enabled: true
     ingressClassName: "nginx"
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       external-dns.alpha.kubernetes.io/hostname: evolution-api.g0b.dev
+      kubernetes.io/ingress.class: nginx
     hosts:
       - host: evolution-api.g0b.dev
         paths:
