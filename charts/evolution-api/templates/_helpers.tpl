@@ -90,6 +90,34 @@ Return the postgresql port
 {{- end -}}
 
 {{/*
+Return the postgresql secret name
+*/}}
+{{- define "evolution-api.postgresql.secretName" -}}
+{{- if .Values.postgresql.auth.existingSecret -}}
+    {{- printf "%s" .Values.postgresql.auth.existingSecret -}}
+{{- else -}}
+    {{- if .Values.postgresql.fullnameOverride -}}
+        {{- printf "%s" .Values.postgresql.fullnameOverride -}}
+    {{- else if .Values.postgresql.nameOverride -}}
+        {{- printf "%s" .Values.postgresql.nameOverride -}}
+    {{- else -}}
+        {{- printf "%s-postgresql" .Release.Name -}}
+    {{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Return the postgresql secret key
+*/}}
+{{- define "evolution-api.postgresql.secretKey" -}}
+{{- if .Values.postgresql.auth.existingSecret -}}
+    {{- printf "%s" (default "postgresql-password" .Values.postgresql.auth.secretKeys.adminPasswordKey) -}}
+{{- else -}}
+    {{- printf "password" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Return the redis host
 */}}
 {{- define "evolution-api.redis.host" -}}

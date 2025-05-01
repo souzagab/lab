@@ -120,6 +120,8 @@ postgresql:
     database: evolution
     username: evolution
     password: "secret"  # Should be changed in production
+    # The following is important for PostgreSQL 14+ with Bitnami charts
+    postgresPassword: "postgres"  # Default superuser password
 
 # Redis Configuration
 redis:

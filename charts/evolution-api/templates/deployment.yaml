@@ -45,10 +45,10 @@ spec:
                 secretKeyRef:
                   {{- if .Values.postgresql.auth.existingSecret }}
                   name: {{ .Values.postgresql.auth.existingSecret }}
-                  key: {{ .Values.postgresql.auth.secretKeys.adminPasswordKey | default "postgresql-password" }}
+                  key: {{ .Values.postgresql.auth.secretKeys.adminPasswordKey | default "password" }}
                   {{- else }}
-                  name: {{ include "evolution-api.postgresql.host" . }}
-                  key: postgresql-password
+                  name: {{ printf "%s" (include "evolution-api.postgresql.secretName" .) }}
+                  key: {{ include "evolution-api.postgresql.secretKey" . }}
                   {{- end }}
             {{- else }}
             # Add logic here if you want to support external postgresql
