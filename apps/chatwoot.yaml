@@ -4,8 +4,8 @@ metadata:
   name: chatwoot
   annotations:
     argocd.argoproj.io/manifest-generate-paths: /charts/chatwoot
-  finalizers:
-    - argocd.argoproj.io/resources-finalizer
+  # finalizers:
+  #   - argocd.argoproj.io/resources-finalizer
 
 spec:
   project: default
