@@ -111,3 +111,19 @@ evolutionApi:
     # requests:
     #   cpu: 100m
     #   memory: 128Mi
+
+# PostgreSQL Configuration
+postgresql:
+  enabled: true
+  fullnameOverride: "evolution-db"
+  auth:
+    database: evolution
+    username: evolution
+    password: "secret"  # Should be changed in production
+
+# Redis Configuration
+redis:
+  enabled: true
+  fullnameOverride: "evolution-redis"
+  auth:
+    enabled: false

@@ -66,7 +66,9 @@ Return the postgresql host
 */}}
 {{- define "evolution-api.postgresql.host" -}}
 {{- if .Values.postgresql.enabled -}}
-    {{- if .Values.postgresql.nameOverride -}}
+    {{- if .Values.postgresql.fullnameOverride -}}
+        {{- .Values.postgresql.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+    {{- else if .Values.postgresql.nameOverride -}}
         {{- printf "%s-postgresql" .Values.postgresql.nameOverride | trunc 63 | trimSuffix "-" -}}
     {{- else -}}
         {{- printf "%s-postgresql" .Release.Name | trunc 63 | trimSuffix "-" -}}
@@ -92,7 +94,9 @@ Return the redis host
 */}}
 {{- define "evolution-api.redis.host" -}}
 {{- if .Values.redis.enabled -}}
-    {{- if .Values.redis.nameOverride -}}
+    {{- if .Values.redis.fullnameOverride -}}
+        {{- printf "%s-master" .Values.redis.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+    {{- else if .Values.redis.nameOverride -}}
         {{- printf "%s-redis-master" .Values.redis.nameOverride | trunc 63 | trimSuffix "-" -}}
     {{- else -}}
         {{- printf "%s-redis-master" .Release.Name | trunc 63 | trimSuffix "-" -}}

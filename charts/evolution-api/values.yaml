@@ -169,7 +169,8 @@ affinity: {}
 # PostgreSQL Dependency Configuration
 postgresql:
   enabled: true
-  nameOverride: "evolution-api" # Prefix postgres resources
+  nameOverride: "evolution-db" # Use a distinct name prefix
+  fullnameOverride: "evolution-db" # Ensure completely custom name
 
   # Use an existing secret for postgresql password (recommended)
   # auth:
@@ -194,7 +195,8 @@ postgresql:
 # Redis Dependency Configuration
 redis:
   enabled: true
-  nameOverride: "evolution-api" # Prefix redis resources
+  nameOverride: "evolution-redis" # Use a distinct name prefix
+  fullnameOverride: "evolution-redis" # Ensure completely custom name
 
   # Use an existing secret for redis password (recommended)
   # auth:
