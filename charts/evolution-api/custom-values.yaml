@@ -139,6 +139,7 @@ redis:
   image:
     registry: docker.io
     repository: arm64v8/redis
+    tag: "7-alpine"
     pullPolicy: IfNotPresent
   auth:
     enabled: false
