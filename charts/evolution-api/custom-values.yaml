@@ -114,22 +114,29 @@ postgresql:
   fullnameOverride: "evolution-db"
   # Override with ARM-compatible image
   image:
-    repository: postgres
+    registry: docker.io
+    repository: arm64v8/postgres
     tag: "15-alpine"
     pullPolicy: IfNotPresent
+  
+  # Simplified auth for PoC - trust all connections
   auth:
     database: evolution
-    username: evolution
-    password: "secret"  # Should be changed in production
-    # The following is important for PostgreSQL 14+ with Bitnami charts
-    postgresPassword: "postgres"  # Default superuser password
-
+    username: postgres
+    enablePostgresUser: true
+    postgresPassword: ""
+  
   # For official Postgres image structure differences
   primary:
     podSecurityContext:
       enabled: false
     containerSecurityContext:
       enabled: false
+    
+    # Configure postgres to trust all connections (no password required)
+    extraEnvVars:
+      - name: POSTGRES_HOST_AUTH_METHOD
+        value: "trust"
 
 # Redis Configuration
 redis:
