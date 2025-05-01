@@ -1,0 +1,21 @@
+{{- if .Values.evolutionApi.persistence.enabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "evolution-api.fullname" . }}-instances
+  labels:
+    {{- include "evolution-api.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    {{- toYaml .Values.evolutionApi.persistence.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.evolutionApi.persistence.size | quote }}
+  {{- if .Values.evolutionApi.persistence.storageClass }}
+  {{- if (eq "-" .Values.evolutionApi.persistence.storageClass) }}
+  storageClassName: ""
+  {{- else }}
+  storageClassName: "{{ .Values.evolutionApi.persistence.storageClass }}"
+  {{- end }}
+  {{- end }}
+{{- end -}} 

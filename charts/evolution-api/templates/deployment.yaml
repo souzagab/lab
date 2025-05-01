@@ -1,0 +1,112 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "evolution-api.fullname" . }}
+  labels:
+    {{- include "evolution-api.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.evolutionApi.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "evolution-api.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "evolution-api.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "evolution-api.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.evolutionApi.image.repository }}:{{ .Values.evolutionApi.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.evolutionApi.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.evolutionApi.env.SERVER_PORT }}
+              protocol: TCP
+          env:
+            {{- range $key, $value := .Values.evolutionApi.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+            # Construct Database URI from subchart values and secrets
+            {{- if .Values.postgresql.enabled }}
+            - name: DATABASE_CONNECTION_URI
+              value: "postgresql://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ include "evolution-api.postgresql.host" . }}:{{ include "evolution-api.postgresql.port" . }}/{{ .Values.postgresql.auth.database }}"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  {{- if .Values.postgresql.auth.existingSecret }}
+                  name: {{ .Values.postgresql.auth.existingSecret }}
+                  key: {{ .Values.postgresql.auth.secretKeys.adminPasswordKey | default "postgresql-password" }}
+                  {{- else }}
+                  name: {{ include "evolution-api.postgresql.host" . }}
+                  key: postgresql-password
+                  {{- end }}
+            {{- else }}
+            # Add logic here if you want to support external postgresql
+            {{- end }}
+
+            # Construct Redis URIs from subchart values (assuming no auth for now)
+            {{- if .Values.redis.enabled }}
+            - name: REDIS_URI
+              value: "redis://{{ include "evolution-api.redis.host" . }}:{{ include "evolution-api.redis.port" . }}"
+            - name: CACHE_REDIS_URI
+              value: "redis://{{ include "evolution-api.redis.host" . }}:{{ include "evolution-api.redis.port" . }}/6"
+            # Add redis password logic if redis.auth.enabled is true
+            {{- else }}
+             # Add logic here if you want to support external redis
+            {{- end }}
+
+            # Get API Key from Secret
+            - name: AUTHENTICATION_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.evolutionApi.existingApiKeySecret | default (printf "%s-apikey" (include "evolution-api.fullname" .)) }}
+                  key: {{ .Values.evolutionApi.apiKeySecretKey }}
+
+          {{- if .Values.evolutionApi.envFromSecrets }}
+          envFrom:
+            {{- range .Values.evolutionApi.envFromSecrets }}
+            - secretRef:
+                name: {{ .secretName }}
+            {{- end }}
+          {{- end }}
+
+          resources:
+            {{- toYaml .Values.evolutionApi.resources | nindent 12 }}
+          volumeMounts:
+          {{- if .Values.evolutionApi.persistence.enabled }}
+            - name: evolution-instances
+              mountPath: /evolution/instances
+          {{- end }}
+      volumes:
+      {{- if .Values.evolutionApi.persistence.enabled }}
+        - name: evolution-instances
+        {{- if .Values.evolutionApi.persistence.existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.evolutionApi.persistence.existingClaim }}
+        {{- else }}
+          persistentVolumeClaim:
+            claimName: {{ printf "%s-instances" (include "evolution-api.fullname" .) }}
+        {{- end }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }} 

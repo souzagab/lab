@@ -1,0 +1,30 @@
+apiVersion: v2
+name: evolution-api
+description: A Helm chart for deploying the Evolution API
+
+# A chart can be either an 'application' or a 'library' chart.
+# Application charts are deployable objects. Library charts provide useful utilities
+# or functions for the chart developer. Library charts will require charts to depend
+# on it to be installed. Read more about chart types here:
+# https://helm.sh/docs/topics/charts/#chart-types
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+version: 0.1.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Apps that don't use versioning
+# may use a GIT hash of the commit.
+appVersion: "v2.2.3"
+
+dependencies:
+  - name: postgresql
+    version: "14.x.x" # Use a recent stable version compatible with postgres 15
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+
+  - name: redis
+    version: "18.x.x" # Use a recent stable version compatible with redis alpine
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled 
