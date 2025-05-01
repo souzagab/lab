@@ -1,7 +1,3 @@
-
-
-
-
 evolutionApi:
 
   # Define environment variables
@@ -116,6 +112,11 @@ evolutionApi:
 postgresql:
   enabled: true
   fullnameOverride: "evolution-db"
+  # Override with ARM-compatible image
+  image:
+    repository: postgres
+    tag: "15-alpine"
+    pullPolicy: IfNotPresent
   auth:
     database: evolution
     username: evolution
@@ -123,9 +124,28 @@ postgresql:
     # The following is important for PostgreSQL 14+ with Bitnami charts
     postgresPassword: "postgres"  # Default superuser password
 
+  # For official Postgres image structure differences
+  primary:
+    podSecurityContext:
+      enabled: false
+    containerSecurityContext:
+      enabled: false
+
 # Redis Configuration
 redis:
   enabled: true
   fullnameOverride: "evolution-redis"
+  # Override with ARM-compatible image
+  image:
+    repository: redis
+    tag: "alpine"
+    pullPolicy: IfNotPresent
   auth:
     enabled: false
+
+  # For official Redis image structure differences
+  master:
+    podSecurityContext:
+      enabled: false
+    containerSecurityContext:
+      enabled: false
