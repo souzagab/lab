@@ -119,24 +119,28 @@ postgresql:
     tag: "15-alpine"
     pullPolicy: IfNotPresent
   
-  # Simplified auth for PoC - trust all connections
-  auth:
-    database: evolution
-    username: postgres
-    enablePostgresUser: true
-    postgresPassword: ""
-  
-  # For official Postgres image structure differences
+  # Force reset the database by deleting PVC
   primary:
+    persistence:
+      enabled: true
+      # Set to false to delete existing PVC and recreate
+      existingClaim: ""
+      # Add storageClass if needed
+      # storageClass: ""
+    
     podSecurityContext:
       enabled: false
     containerSecurityContext:
       enabled: false
     
-    # Configure postgres to trust all connections (no password required)
+    # Force database initialization
     extraEnvVars:
-      - name: POSTGRES_HOST_AUTH_METHOD
-        value: "trust"
+      - name: POSTGRES_USER
+        value: "evolution"
+      - name: POSTGRES_PASSWORD
+        value: "secret"
+      - name: POSTGRES_DB
+        value: "evolution"
 
 # Redis Configuration
 redis:

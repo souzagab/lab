@@ -39,7 +39,7 @@ spec:
             # Construct Database URI from subchart values and secrets
             {{- if .Values.postgresql.enabled }}
             - name: DATABASE_CONNECTION_URI
-              value: "postgresql://{{ .Values.postgresql.auth.username }}@{{ include "evolution-api.postgresql.host" . }}:{{ include "evolution-api.postgresql.port" . }}/{{ .Values.postgresql.auth.database }}"
+              value: "postgresql://evolution:secret@{{ include "evolution-api.postgresql.host" . }}:{{ include "evolution-api.postgresql.port" . }}/evolution"
             {{- else }}
             # Add logic here if you want to support external postgresql
             {{- end }}
