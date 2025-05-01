@@ -137,8 +137,8 @@ redis:
   fullnameOverride: "evolution-redis"
   # Override with ARM-compatible image
   image:
-    repository: redis
-    tag: "alpine"
+    registry: docker.io
+    repository: arm64v8/redis
     pullPolicy: IfNotPresent
   auth:
     enabled: false
