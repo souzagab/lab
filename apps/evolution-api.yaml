@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: evolution-api
+  annotations:
+    argocd.argoproj.io/manifest-generate-paths: /charts/evolution-api
+  finalizers:
+    - argocd.argoproj.io/resources-finalizer
+
+spec:
+  project: default
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: evolution-api
+
+  source:
+    repoURL: https://github.com/souzagab/lab
+    targetRevision: main
+    path: charts/evolution-api
+    helm:
+      valueFiles:
+        - custom-values.yaml
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

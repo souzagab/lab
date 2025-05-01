@@ -8,7 +8,7 @@ spec:
   type: {{ .Values.evolutionApi.service.type }}
   ports:
     - port: {{ .Values.evolutionApi.service.port }}
-      targetPort: http
+      targetPort: {{ .Values.evolutionApi.env.SERVER_PORT | default "8080" }}
       protocol: TCP
       name: http
   selector:

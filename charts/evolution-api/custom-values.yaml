@@ -1,0 +1,113 @@
+
+
+
+
+evolutionApi:
+
+  # Define environment variables
+  env:
+    # Server config
+    SERVER_TYPE: http
+    SERVER_PORT: "8080"
+    # SERVER_URL: http://localhost:8080 # This should be set based on ingress/service type
+
+    # Cors - * for all or set separate by commas
+    CORS_ORIGIN: "*"
+    CORS_METHODS: GET,POST,PUT,DELETE
+    CORS_CREDENTIALS: "true"
+
+    # Determine the logs to be displayed
+    LOG_LEVEL: ERROR,WARN,INFO # Reduced default logging
+    LOG_COLOR: "true"
+    LOG_BAILEYS: error
+
+    # Set the maximum number of listeners for events
+    EVENT_EMITTER_MAX_LISTENERS: "50"
+
+    # Keep instance running even with no connection
+    DEL_INSTANCE: "false"
+
+    # Database settings
+    DATABASE_PROVIDER: postgresql
+    # DATABASE_CONNECTION_URI will be constructed using secrets and helpers
+    DATABASE_CONNECTION_CLIENT_NAME: pg-evolution
+    DATABASE_SSL: "false"
+
+    # Choose the data you want to save
+    DATABASE_SAVE_DATA_INSTANCE: "true"
+    DATABASE_SAVE_DATA_NEW_MESSAGE: "true"
+    DATABASE_SAVE_MESSAGE_UPDATE: "true"
+    DATABASE_SAVE_DATA_CONTACTS: "true"
+    DATABASE_SAVE_DATA_CHATS: "true"
+    DATABASE_SAVE_DATA_LABELS: "true"
+    DATABASE_SAVE_DATA_HISTORIC: "true"
+    DATABASE_SAVE_IS_ON_WHATSAPP: "true"
+    DATABASE_SAVE_IS_ON_WHATSAPP_DAYS: "7"
+    DATABASE_DELETE_MESSAGE: "true"
+
+    # Redis - Connection URI will be constructed using secrets/helpers
+    REDIS_ENABLED: "true" # Needs to be true if redis subchart is enabled
+    # REDIS_URI will be constructed
+    REDIS_PREFIX: evolution
+    CACHE_REDIS_ENABLED: "true"
+    # CACHE_REDIS_URI will be constructed (uses different DB index /6)
+    CACHE_REDIS_TTL: "604800"
+    CACHE_REDIS_PREFIX_KEY: evolution
+    CACHE_REDIS_SAVE_INSTANCES: "false"
+
+    # Local Cache
+    CACHE_LOCAL_ENABLED: "false"
+
+    # Webhook settings (Keep disabled by default)
+    WEBHOOK_GLOBAL_URL: ""
+    WEBHOOK_GLOBAL_ENABLED: "false"
+    WEBHOOK_GLOBAL_WEBHOOK_BY_EVENTS: "false"
+    # ... (Keep webhook events flags as they are or make them configurable)
+
+    # Phone client settings
+    CONFIG_SESSION_PHONE_CLIENT: Evolution API
+    CONFIG_SESSION_PHONE_NAME: Chrome
+    CONFIG_SESSION_PHONE_VERSION: 2.3000.1015901307
+
+    # QR Code settings
+    QRCODE_LIMIT: "30"
+    QRCODE_COLOR: "#175197"
+
+    # Authentication - API Key will come from secret
+    # AUTHENTICATION_API_KEY: secret
+
+    # Language
+    LANGUAGE: en
+
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      external-dns.alpha.kubernetes.io/hostname: evolution-api.g0b.dev
+    hosts:
+      - host: evolution-api.g0b.dev
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: evolution-api
+                port:
+                  number: 8080
+    tls:
+      - secretName: evolution-api-tls
+        hosts:
+          - evolution-api.g0b.dev
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
